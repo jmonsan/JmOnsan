@@ -4,6 +4,8 @@ using BotBridge.UI.Tray;
 using BotBridge.UI.ViewModels;
 using Microsoft.Extensions.DependencyInjection;
 using BotBridge.UI.Services;
+using BotBridge.Core.Interfaces;
+using BotBridge.Core.Models;
 
 namespace BotBridge.UI;
 
@@ -16,6 +18,29 @@ public partial class MainWindow : Window
     public MainWindow()
     {
         InitializeComponent();
+
+
+            var statusService =
+            ServiceProviderHost.Provider
+                .GetRequiredService<IStatusService>();
+
+        statusService.Update(status =>
+        {
+            status.State =
+                WorkerState.Running;
+
+            status.CurrentProcess =
+                "Test Process";
+
+            status.NextScheduledRun =
+                DateTimeOffset.Now.AddMinutes(5);
+
+            status.LastExecutionTime =
+                DateTimeOffset.Now;
+        });
+
+
+
 
         DataContext =
             ServiceProviderHost.Provider

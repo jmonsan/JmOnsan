@@ -13,24 +13,39 @@ public sealed class ProcessService : IProcessService
         _configurationService = configurationService;
     }
 
-    public async Task<IReadOnlyCollection<ProcessInfo>>
-        GetProcessesAsync(
-            CancellationToken cancellationToken = default)
+public async Task<IReadOnlyCollection<ProcessInfo>>
+    GetProcessesAsync(
+        CancellationToken cancellationToken = default)
+{
+    var folder =
+        _configurationService.Current
+            .PackagesFolder;
+
+    if (!Directory.Exists(folder))
     {
-        var packagesFolder =
-            _configurationService.Current.PackagesFolder;
-
-        Directory.CreateDirectory(packagesFolder);
-
-        var processes = Directory
-            .GetFiles(packagesFolder, "*.bat")
-            .Select(CreateProcessInfo)
-            .OrderBy(x => x.Name)
-            .ToList()
-            .AsReadOnly();
-
-        return await Task.FromResult(processes);
+        return [];
     }
+
+    var files =
+        Directory.GetFiles(
+            folder,
+            "*.bat",
+            SearchOption.TopDirectoryOnly);
+
+    return files
+        .Select(file => new ProcessInfo
+        {
+            Name =
+                Path.GetFileNameWithoutExtension(
+                    file),
+
+            FullPath = file,
+
+            SizeInBytes =
+                new FileInfo(file).Length
+        })
+        .ToList();
+}
 
     public async Task<ProcessInfo?> GetProcessAsync(
         string processName,
@@ -49,43 +64,48 @@ public sealed class ProcessService : IProcessService
         return CreateProcessInfo(path);
     }
 
-    public async Task<string> ReadProcessAsync(
+public async Task<string>
+    ReadProcessAsync(
         string processName,
         CancellationToken cancellationToken = default)
+{
+    var folder =
+        _configurationService.Current
+            .PackagesFolder;
+
+    var file =
+        Path.Combine(
+            folder,
+            $"{processName}.bat");
+
+    if (!File.Exists(file))
     {
-        var path =
-            await GetProcessPathAsync(
-                processName,
-                cancellationToken);
-
-        if (!File.Exists(path))
-        {
-            throw new FileNotFoundException(
-                "Process file not found.",
-                path);
-        }
-
-        return await File.ReadAllTextAsync(
-            path,
-            cancellationToken);
+        return string.Empty;
     }
 
-    public async Task SaveProcessAsync(
-        string processName,
-        string content,
-        CancellationToken cancellationToken = default)
+return await File.ReadAllTextAsync(
+    file,
+    cancellationToken);
+}
+
+public async Task SaveProcessAsync(
+    string processName,
+    string content,
+    CancellationToken cancellationToken = default)
     {
-        ArgumentNullException.ThrowIfNull(content);
+        var folder =
+            _configurationService.Current
+                .PackagesFolder;
 
-        var path =
-            await GetProcessPathAsync(
-                processName,
-                cancellationToken);
+        var file =
+            Path.Combine(
+                folder,
+                $"{processName}.bat");
 
-        await File.WriteAllTextAsync(
-            path,
-            content,
-            cancellationToken);
+await File.WriteAllTextAsync(
+    file,
+    content,
+    cancellationToken);
     }
 
     public async Task CreateProcessAsync(
@@ -154,7 +174,10 @@ public sealed class ProcessService : IProcessService
 
         return Path.Combine(
             packagesFolder,
-            processName);
+            processName.EndsWith(".bat",
+                StringComparison.OrdinalIgnoreCase)
+                ? processName
+                : $"{processName}.bat");
     }
 
     public Task ValidateProcessAsync(

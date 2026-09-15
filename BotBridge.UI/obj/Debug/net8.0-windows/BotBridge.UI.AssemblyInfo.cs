@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("BotBridge.UI")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+ee348b6777da1bae44618c7c2981d7647c871f76")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+91d525f43b2973491be00959cb0fc5d29a8710e6")]
 [assembly: System.Reflection.AssemblyProductAttribute("BotBridge.UI")]
 [assembly: System.Reflection.AssemblyTitleAttribute("BotBridge.UI")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

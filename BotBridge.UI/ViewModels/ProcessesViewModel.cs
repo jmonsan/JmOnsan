@@ -2,6 +2,7 @@ using System.Collections.ObjectModel;
 using BotBridge.Core.Interfaces;
 using BotBridge.UI.Commands;
 using BotBridge.UI.Models;
+using System.Windows;
 
 namespace BotBridge.UI.ViewModels;
 
@@ -10,6 +11,7 @@ public sealed class ProcessesViewModel
 {
     private readonly IProcessService _processService;
 
+    private readonly IProcessDiscoveryService _processDiscoveryService;
     private readonly IAutomationService _automationService;
 
     private ProcessItemModel? _selectedProcess;
@@ -48,51 +50,55 @@ public sealed class ProcessesViewModel
 
     public RelayCommand RunCommand { get; }
 
-    public ProcessesViewModel(
-        IProcessService processService,
-        IAutomationService automationService)
+public ProcessesViewModel(
+    IProcessService processService,
+    IAutomationService automationService,
+    IProcessDiscoveryService processDiscoveryService)
+{
+    _processService =
+        processService;
+
+    _automationService =
+        automationService;
+
+    _processDiscoveryService =
+        processDiscoveryService;
+
+    RefreshCommand =
+        new RelayCommand(
+            () => _ = LoadProcessesAsync());
+
+    SaveCommand =
+        new RelayCommand(
+            () => _ = SaveProcessAsync());
+
+    RunCommand =
+        new RelayCommand(
+            () => _ = RunProcessAsync());
+
+    _ = LoadProcessesAsync();
+}
+
+
+private async Task LoadProcessesAsync()
+{
+    Processes.Clear();
+
+    var items =
+        await _processService
+            .GetProcessesAsync();
+
+    foreach (var item in items)
     {
-        _processService =
-            processService;
-
-        _automationService =
-            automationService;
-
-        RefreshCommand =
-            new RelayCommand(
-                () => _ = LoadProcessesAsync());
-
-        SaveCommand =
-            new RelayCommand(
-                () => _ = SaveProcessAsync());
-
-        RunCommand =
-            new RelayCommand(
-                () => _ = RunProcessAsync());
-
-        _ = LoadProcessesAsync();
+        Processes.Add(
+            new ProcessItemModel
+            {
+                Name = item.Name,
+                FullPath = item.FullPath,
+                SizeInBytes = item.SizeInBytes
+            });
     }
-
-    private async Task LoadProcessesAsync()
-    {
-        Processes.Clear();
-
-        var items =
-            await _processService
-                .GetProcessesAsync();
-
-        foreach (var item in items)
-        {
-            Processes.Add(
-                new ProcessItemModel
-                {
-                    Name = item.Name,
-                    FullPath = item.FullPath,
-                    SizeInBytes = item.SizeInBytes
-                });
-        }
-    }
-
+}
     private async Task LoadProcessContentAsync()
     {
         if (SelectedProcess is null)

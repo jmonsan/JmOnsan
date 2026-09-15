@@ -1,4 +1,5 @@
 using BotBridge.Core.Interfaces;
+using BotBridge.Core.Models;
 using BotBridge.UI.Commands;
 
 namespace BotBridge.UI.ViewModels;
@@ -7,6 +8,9 @@ public sealed class DashboardViewModel
     : ViewModelBase
 {
     private readonly IStatusService _statusService;
+
+    private readonly IApplicationControlService
+        _applicationControlService;
 
     public string Status =>
         _statusService.Current.State.ToString();
@@ -34,32 +38,32 @@ public sealed class DashboardViewModel
     public RelayCommand StopCommand { get; }
 
     public DashboardViewModel(
-        IStatusService statusService)
+        IStatusService statusService,
+        IApplicationControlService applicationControlService)
     {
         _statusService =
             statusService;
 
-        _statusService.StatusChanged +=
-            OnStatusChanged;
+        _applicationControlService =
+            applicationControlService;
 
         StartCommand =
-            new RelayCommand(() =>
-            {
-                // Future:
-                // IApplicationControlService.StartAsync()
-            });
+            new RelayCommand(
+                () => _ =
+                    _applicationControlService.StartAsync());
 
         StopCommand =
-            new RelayCommand(() =>
-            {
-                // Future:
-                // IApplicationControlService.StopAsync()
-            });
+            new RelayCommand(
+                () => _ =
+                    _applicationControlService.StopAsync());
+
+        _statusService.StatusChanged +=
+            OnStatusChanged;
     }
 
     private void OnStatusChanged(
         object? sender,
-        Core.Models.BackendStatus e)
+        BackendStatus e)
     {
         OnPropertyChanged(nameof(Status));
         OnPropertyChanged(nameof(CurrentTask));

@@ -62,9 +62,18 @@ public static class DependencyInjection
         services.AddSingleton<IAutomationService,
             AutomationService>();
 
+        services.AddSingleton<
+            IProcessDiscoveryService,
+            ProcessDiscoveryService>();
+
+        services.AddSingleton<
+            IApplicationControlService,
+            ApplicationControlService>();
         // Worker
 
         services.AddSingleton<AutomationWorker>();
+        services.AddSingleton<FolderInitializer>();
+
 
         return services;
     }
