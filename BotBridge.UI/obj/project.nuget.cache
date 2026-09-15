@@ -1,0 +1,12 @@
+{
+  "version": 2,
+  "dgSpecHash": "EMuN0CqBKQE=",
+  "success": true,
+  "projectFilePath": "C:\\BotBridge\\BotBridge.UI\\BotBridge.UI.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\JeironeMarcoOnsan\\.nuget\\packages\\hardcodet.notifyicon.wpf\\2.0.1\\hardcodet.notifyicon.wpf.2.0.1.nupkg.sha512",
+    "C:\\Users\\JeironeMarcoOnsan\\.nuget\\packages\\microsoft.extensions.dependencyinjection\\10.0.12\\microsoft.extensions.dependencyinjection.10.0.12.nupkg.sha512",
+    "C:\\Users\\JeironeMarcoOnsan\\.nuget\\packages\\microsoft.extensions.dependencyinjection.abstractions\\10.0.12\\microsoft.extensions.dependencyinjection.abstractions.10.0.12.nupkg.sha512"
+  ],
+  "logs": []
+}

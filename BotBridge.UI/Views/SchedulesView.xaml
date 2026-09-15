@@ -1,0 +1,77 @@
+<UserControl
+    x:Class="BotBridge.UI.Views.SchedulesView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <Grid Margin="20">
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="10"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <!-- Header -->
+
+        <TextBlock
+            Text="Schedules"
+            FontSize="30"
+            FontWeight="SemiBold"/>
+
+        <!-- Schedule Grid -->
+
+        <Border
+            Grid.Row="2"
+            Background="White"
+            CornerRadius="8"
+            Padding="15">
+
+            <DockPanel>
+
+                <Button
+                    Content="Refresh"
+                    Height="35"
+                    Width="120"
+                    DockPanel.Dock="Top"
+                    Margin="0,0,0,10"
+                    Command="{Binding RefreshCommand}" />
+
+                <DataGrid
+                    ItemsSource="{Binding Schedules}"
+                    SelectedItem="{Binding SelectedSchedule}"
+                    AutoGenerateColumns="False"
+                    IsReadOnly="True">
+
+                    <DataGrid.Columns>
+
+                        <DataGridTextColumn
+                            Header="Process"
+                            Binding="{Binding ProcessName}"
+                            Width="*" />
+
+                        <DataGridTextColumn
+                            Header="Type"
+                            Binding="{Binding ScheduleType}"
+                            Width="120" />
+
+                        <DataGridTextColumn
+                            Header="Next Run"
+                            Binding="{Binding StartDateTime}"
+                            Width="220" />
+
+                        <DataGridCheckBoxColumn
+                            Header="Enabled"
+                            Binding="{Binding Enabled}"
+                            Width="100" />
+
+                    </DataGrid.Columns>
+
+                </DataGrid>
+
+            </DockPanel>
+
+        </Border>
+
+    </Grid>
+
+</UserControl>

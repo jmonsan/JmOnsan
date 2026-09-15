@@ -1,0 +1,11 @@
+{
+  "version": 2,
+  "dgSpecHash": "8CdGhgLGPCg=",
+  "success": true,
+  "projectFilePath": "C:\\BotBridge\\BotBridge.App\\BotBridge.App.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\JeironeMarcoOnsan\\.nuget\\packages\\microsoft.extensions.dependencyinjection\\10.0.12\\microsoft.extensions.dependencyinjection.10.0.12.nupkg.sha512",
+    "C:\\Users\\JeironeMarcoOnsan\\.nuget\\packages\\microsoft.extensions.dependencyinjection.abstractions\\10.0.12\\microsoft.extensions.dependencyinjection.abstractions.10.0.12.nupkg.sha512"
+  ],
+  "logs": []
+}
