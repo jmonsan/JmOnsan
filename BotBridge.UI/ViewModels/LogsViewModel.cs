@@ -1,4 +1,8 @@
 using System.Collections.ObjectModel;
+using System.IO;
+using System.Linq;
+using System.Threading.Tasks;
+
 using BotBridge.Core.Interfaces;
 using BotBridge.UI.Commands;
 using BotBridge.UI.Models;
@@ -10,8 +14,21 @@ public sealed class LogsViewModel
 {
     private readonly ILoggerService _loggerService;
 
-    public ObservableCollection<LogItemModel>
-        Logs { get; } = [];
+    private readonly IConfigurationService
+        _configurationService;
+
+    private LogFileItemModel? _selectedLogFile;
+
+    public ObservableCollection<LogFileItemModel>
+        LogFiles { get; } = [];
+
+    public LogFileItemModel? SelectedLogFile
+    {
+        get => _selectedLogFile;
+        set => SetProperty(
+            ref _selectedLogFile,
+            value);
+    }
 
     public RelayCommand RefreshCommand
     {
@@ -19,35 +36,79 @@ public sealed class LogsViewModel
     }
 
     public LogsViewModel(
-        ILoggerService loggerService)
+        ILoggerService loggerService,
+        IConfigurationService configurationService)
     {
         _loggerService = loggerService;
 
+        _configurationService =
+            configurationService;
+
         RefreshCommand =
             new RelayCommand(
-                () => _ = LoadLogsAsync());
+                () => _ = LoadLogFilesAsync());
 
-        _ = LoadLogsAsync();
+        _ = LoadLogFilesAsync();
     }
 
-    private async Task LoadLogsAsync()
+    /// <summary>
+    /// Browses the Logs folder and lists each log file
+    /// (one entry per file), newest first.
+    /// </summary>
+    private async Task LoadLogFilesAsync()
     {
-        Logs.Clear();
+        LogFiles.Clear();
 
-        var entries =
-            await _loggerService
-                .GetRecentLogsAsync(200);
+        var logsFolder =
+            _configurationService.Current.LogsFolder;
 
-        foreach (var entry in entries
-                     .OrderByDescending(x => x.Timestamp))
+        if (!Directory.Exists(logsFolder))
         {
-            Logs.Add(
-                new LogItemModel
+            return;
+        }
+
+        var files =
+            Directory.GetFiles(
+                logsFolder,
+                "*.log",
+                SearchOption.TopDirectoryOnly);
+
+        foreach (var file in files
+                     .Select(x => new FileInfo(x))
+                     .OrderByDescending(x =>
+                         x.LastWriteTime))
+        {
+            LogFiles.Add(
+                new LogFileItemModel
                 {
-                    Timestamp = entry.Timestamp,
-                    Level = entry.Level,
-                    Message = entry.Message
+                    FileName = file.Name,
+                    FullPath = file.FullName,
+                    LastModified = file.LastWriteTime,
+                    SizeInBytes = file.Length
                 });
+        }
+
+        await Task.CompletedTask;
+    }
+
+    /// <summary>
+    /// Reads a log file's full text content, for display
+    /// in the drill-in popup window.
+    /// </summary>
+    public async Task<string> ReadLogFileAsync(
+        string fullPath)
+    {
+        try
+        {
+            return await File.ReadAllTextAsync(
+                fullPath);
+        }
+        catch (Exception ex)
+        {
+            await _loggerService.ErrorAsync(ex);
+
+            return
+                $"Unable to read log file: {ex.Message}";
         }
     }
 }

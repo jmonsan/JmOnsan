@@ -114,6 +114,23 @@ public sealed class ScheduleService : IScheduleService
         return lastRun == scheduledTime;
     }
 
+    public bool IsDuplicateExecution(
+        ScheduledProcess scheduledProcess)
+    {
+        ArgumentNullException.ThrowIfNull(
+            scheduledProcess);
+
+        if (!scheduledProcess.Process.Schedule
+                .PreventDuplicateExecution)
+        {
+            return false;
+        }
+
+        return IsDuplicateExecution(
+            scheduledProcess.ProcessName,
+            scheduledProcess.ScheduledTime);
+    }
+
     public Task MarkExecutionAsync(
         string processName,
         DateTimeOffset scheduledTime,
@@ -123,6 +140,19 @@ public sealed class ScheduleService : IScheduleService
             scheduledTime;
 
         return Task.CompletedTask;
+    }
+
+    public Task MarkExecutionAsync(
+        ScheduledProcess scheduledProcess,
+        CancellationToken cancellationToken = default)
+    {
+        ArgumentNullException.ThrowIfNull(
+            scheduledProcess);
+
+        return MarkExecutionAsync(
+            scheduledProcess.ProcessName,
+            scheduledProcess.ScheduledTime,
+            cancellationToken);
     }
 
     public Task CleanupHistoryAsync(

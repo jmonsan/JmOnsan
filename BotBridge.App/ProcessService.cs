@@ -13,7 +13,7 @@ public sealed class ProcessService : IProcessService
         _configurationService = configurationService;
     }
 
-public async Task<IReadOnlyCollection<ProcessInfo>>
+public Task<IReadOnlyCollection<ProcessInfo>>
     GetProcessesAsync(
         CancellationToken cancellationToken = default)
 {
@@ -23,7 +23,8 @@ public async Task<IReadOnlyCollection<ProcessInfo>>
 
     if (!Directory.Exists(folder))
     {
-        return [];
+        return Task.FromResult<
+            IReadOnlyCollection<ProcessInfo>>([]);
     }
 
     var files =
@@ -32,19 +33,24 @@ public async Task<IReadOnlyCollection<ProcessInfo>>
             "*.bat",
             SearchOption.TopDirectoryOnly);
 
-    return files
-        .Select(file => new ProcessInfo
-        {
-            Name =
-                Path.GetFileNameWithoutExtension(
-                    file),
+    var result =
+        files
+            .Select(file => new ProcessInfo
+            {
+                Name =
+                    Path.GetFileNameWithoutExtension(
+                        file),
 
-            FullPath = file,
+                FullPath =
+                    file,
 
-            SizeInBytes =
-                new FileInfo(file).Length
-        })
-        .ToList();
+                SizeInBytes =
+                    new FileInfo(file).Length
+            })
+            .ToList();
+
+    return Task.FromResult<
+        IReadOnlyCollection<ProcessInfo>>(result);
 }
 
     public async Task<ProcessInfo?> GetProcessAsync(
@@ -161,54 +167,67 @@ await File.WriteAllTextAsync(
         return File.Exists(path);
     }
 
-    public async Task<string> GetProcessPathAsync(
-        string processName,
-        CancellationToken cancellationToken = default)
+public async Task<string> GetProcessPathAsync(
+    string processName,
+    CancellationToken cancellationToken = default)
+{
+    await ValidateProcessAsync(
+        processName,
+        cancellationToken);
+
+    var packagesFolder =
+        _configurationService.Current
+            .PackagesFolder;
+
+    var cleanName =
+        Path.GetFileNameWithoutExtension(
+            processName);
+
+    return Path.Combine(
+        packagesFolder,
+        $"{cleanName}.bat");
+}
+
+public Task ValidateProcessAsync(
+    string processName,
+    CancellationToken cancellationToken = default)
+{
+    if (string.IsNullOrWhiteSpace(processName))
     {
-        await ValidateProcessAsync(
-            processName,
-            cancellationToken);
-
-        var packagesFolder =
-            _configurationService.Current.PackagesFolder;
-
-        return Path.Combine(
-            packagesFolder,
-            processName.EndsWith(".bat",
-                StringComparison.OrdinalIgnoreCase)
-                ? processName
-                : $"{processName}.bat");
+        throw new ArgumentException(
+            "Process name is required.",
+            nameof(processName));
     }
 
-    public Task ValidateProcessAsync(
-        string processName,
-        CancellationToken cancellationToken = default)
+    processName = processName.Trim();
+
+    if (Path.GetFileName(processName) != processName)
     {
-        if (string.IsNullOrWhiteSpace(processName))
-        {
-            throw new ArgumentException(
-                "Process name is required.",
-                nameof(processName));
-        }
-
-        processName = processName.Trim();
-
-        if (Path.GetFileName(processName) != processName)
-        {
-            throw new ArgumentException(
-                "Invalid process name.");
-        }
-
-        if (!processName.EndsWith(
-                ".bat",
-                StringComparison.OrdinalIgnoreCase))
-        {
-            throw new ArgumentException(
-                "Process must be a .bat file.");
-        }
-
-        return Task.CompletedTask;
+        throw new ArgumentException(
+            "Invalid process name.",
+            nameof(processName));
     }
+
+    if (processName.EndsWith(
+            ".bat",
+            StringComparison.OrdinalIgnoreCase))
+    {
+        processName =
+            Path.GetFileNameWithoutExtension(
+                processName);
+    }
+
+    if (string.IsNullOrWhiteSpace(processName))
+    {
+        throw new ArgumentException(
+            "Invalid process name.",
+            nameof(processName));
+    }
+
+    return Task.CompletedTask;
+}
+
+
 
     private static ProcessInfo CreateProcessInfo(
         string filePath)

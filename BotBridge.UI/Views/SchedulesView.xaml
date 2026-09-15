@@ -18,59 +18,137 @@
             FontSize="30"
             FontWeight="SemiBold"/>
 
-        <!-- Schedule Grid -->
+        <!-- Content -->
 
-        <Border
-            Grid.Row="2"
-            Background="White"
-            CornerRadius="8"
-            Padding="15">
+        <Grid Grid.Row="2">
 
-            <DockPanel>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="20"/>
+                <ColumnDefinition Width="340"/>
+            </Grid.ColumnDefinitions>
 
-                <Button
-                    Content="Refresh"
-                    Height="35"
-                    Width="120"
-                    DockPanel.Dock="Top"
-                    Margin="0,0,0,10"
-                    Command="{Binding RefreshCommand}" />
+            <!-- Schedule Grid -->
 
-                <DataGrid
-                    ItemsSource="{Binding Schedules}"
-                    SelectedItem="{Binding SelectedSchedule}"
-                    AutoGenerateColumns="False"
-                    IsReadOnly="True">
+            <Border
+                Background="White"
+                CornerRadius="8"
+                Padding="15">
 
-                    <DataGrid.Columns>
+                <DockPanel>
 
-                        <DataGridTextColumn
-                            Header="Process"
-                            Binding="{Binding ProcessName}"
-                            Width="*" />
+                    <Button
+                        Content="Refresh"
+                        Height="35"
+                        Width="120"
+                        DockPanel.Dock="Top"
+                        Margin="0,0,0,10"
+                        Command="{Binding RefreshCommand}" />
 
-                        <DataGridTextColumn
-                            Header="Type"
-                            Binding="{Binding ScheduleType}"
-                            Width="120" />
+                    <DataGrid
+                        ItemsSource="{Binding Schedules}"
+                        SelectedItem="{Binding SelectedSchedule}"
+                        AutoGenerateColumns="False"
+                        IsReadOnly="True">
 
-                        <DataGridTextColumn
-                            Header="Next Run"
-                            Binding="{Binding StartDateTime}"
-                            Width="220" />
+                        <DataGrid.Columns>
 
-                        <DataGridCheckBoxColumn
-                            Header="Enabled"
-                            Binding="{Binding Enabled}"
-                            Width="100" />
+                            <DataGridTextColumn
+                                Header="Process"
+                                Binding="{Binding ProcessName}"
+                                Width="*" />
 
-                    </DataGrid.Columns>
+                            <DataGridTextColumn
+                                Header="Type"
+                                Binding="{Binding ScheduleType}"
+                                Width="120" />
 
-                </DataGrid>
+                            <DataGridTextColumn
+                                Header="Next Run"
+                                Binding="{Binding StartDateTime}"
+                                Width="220" />
 
-            </DockPanel>
+                            <DataGridCheckBoxColumn
+                                Header="Enabled"
+                                Binding="{Binding Enabled}"
+                                Width="100" />
 
-        </Border>
+                        </DataGrid.Columns>
+
+                    </DataGrid>
+
+                </DockPanel>
+
+            </Border>
+
+            <!-- Create / Update Schedule -->
+
+            <Border
+                Grid.Column="2"
+                Background="White"
+                CornerRadius="8"
+                Padding="15">
+
+                <StackPanel>
+
+                    <TextBlock
+                        Text="Create / Update Schedule"
+                        FontSize="16"
+                        FontWeight="SemiBold"
+                        Margin="0,0,0,15"/>
+
+                    <TextBlock Text="Process"/>
+
+                    <ComboBox
+                        ItemsSource="{Binding AvailableProcesses}"
+                        SelectedItem="{Binding SelectedProcessName}"
+                        Margin="0,5,0,15"/>
+
+                    <TextBlock Text="Schedule Type"/>
+
+                    <ComboBox
+                        ItemsSource="{Binding ScheduleTypes}"
+                        SelectedItem="{Binding SelectedScheduleType}"
+                        Margin="0,5,0,15"/>
+
+                    <TextBlock Text="Start Date/Time (yyyy-MM-dd HH:mm:ss)"/>
+
+                    <TextBox
+                        Text="{Binding StartDateTimeText, UpdateSourceTrigger=PropertyChanged}"
+                        Margin="0,5,0,15"/>
+
+                    <TextBlock Text="Day of Week (Weekly only)"/>
+
+                    <ComboBox
+                        ItemsSource="{Binding DaysOfWeek}"
+                        SelectedItem="{Binding SelectedDayOfWeek}"
+                        Margin="0,5,0,15"/>
+
+                    <CheckBox
+                        Content="Enabled"
+                        IsChecked="{Binding ScheduleEnabled}"
+                        Margin="0,0,0,10"/>
+
+                    <CheckBox
+                        Content="Run Missed Execution"
+                        IsChecked="{Binding RunMissedExecution}"
+                        Margin="0,0,0,10"/>
+
+                    <CheckBox
+                        Content="Prevent Duplicate Execution"
+                        IsChecked="{Binding PreventDuplicateExecution}"
+                        Margin="0,0,0,15"/>
+
+                    <Button
+                        Content="Save Schedule"
+                        Height="35"
+                        Command="{Binding SaveCommand}"/>
+
+                </StackPanel>
+
+            </Border>
+
+        </Grid>
 
     </Grid>
 

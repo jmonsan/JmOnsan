@@ -19,40 +19,35 @@ public sealed class StatusService : IStatusService
         ArgumentNullException.ThrowIfNull(
             updateAction);
 
+        BackendStatus snapshot;
+
         lock (_syncRoot)
         {
             updateAction(Current);
 
             Current.LastUpdatedAt =
                 DateTimeOffset.Now;
+
+            snapshot = CreateSnapshot();
         }
 
-        RaiseStatusChanged();
+        StatusChanged?.Invoke(
+            this,
+            snapshot);
     }
 
     public BackendStatus GetSnapshot()
     {
         lock (_syncRoot)
         {
-            return new BackendStatus
-            {
-                State = Current.State,
-                CurrentProcess = Current.CurrentProcess,
-                CurrentExecutionId = Current.CurrentExecutionId,
-                NextScheduledRun = Current.NextScheduledRun,
-                LastExecutionTime = Current.LastExecutionTime,
-                LastResult = Current.LastResult,
-                LastError = Current.LastError,
-                SuccessfulExecutions = Current.SuccessfulExecutions,
-                FailedExecutions = Current.FailedExecutions,
-                StartedAt = Current.StartedAt,
-                LastUpdatedAt = Current.LastUpdatedAt
-            };
+            return CreateSnapshot();
         }
     }
 
     public void Reset()
     {
+        BackendStatus snapshot;
+
         lock (_syncRoot)
         {
             Current.State =
@@ -87,18 +82,51 @@ public sealed class StatusService : IStatusService
 
             Current.LastUpdatedAt =
                 DateTimeOffset.Now;
+
+            snapshot = CreateSnapshot();
         }
-
-        RaiseStatusChanged();
-    }
-
-    private void RaiseStatusChanged()
-    {
-        var snapshot =
-            GetSnapshot();
 
         StatusChanged?.Invoke(
             this,
             snapshot);
+    }
+
+    private BackendStatus CreateSnapshot()
+    {
+        return new BackendStatus
+        {
+            State =
+                Current.State,
+
+            CurrentProcess =
+                Current.CurrentProcess,
+
+            CurrentExecutionId =
+                Current.CurrentExecutionId,
+
+            NextScheduledRun =
+                Current.NextScheduledRun,
+
+            LastExecutionTime =
+                Current.LastExecutionTime,
+
+            LastResult =
+                Current.LastResult,
+
+            LastError =
+                Current.LastError,
+
+            SuccessfulExecutions =
+                Current.SuccessfulExecutions,
+
+            FailedExecutions =
+                Current.FailedExecutions,
+
+            StartedAt =
+                Current.StartedAt,
+
+            LastUpdatedAt =
+                Current.LastUpdatedAt
+        };
     }
 }

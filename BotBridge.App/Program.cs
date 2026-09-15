@@ -1,4 +1,5 @@
 ﻿using BotBridge.Application;
+using BotBridge.Application.Services;
 using BotBridge.Application.Workers;
 using BotBridge.Core.Interfaces;
 using Microsoft.Extensions.DependencyInjection;
@@ -25,6 +26,11 @@ internal static class Program
             provider.GetRequiredService<IConfigurationService>();
 
         await configurationService.LoadAsync();
+
+        var folderInitializer =
+            provider.GetRequiredService<FolderInitializer>();
+
+        folderInitializer.EnsureFoldersExist();
 
         var worker =
             provider.GetRequiredService<AutomationWorker>();

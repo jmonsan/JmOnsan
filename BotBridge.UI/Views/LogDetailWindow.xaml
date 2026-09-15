@@ -1,0 +1,23 @@
+<Window
+    x:Class="BotBridge.UI.Views.LogDetailWindow"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    Width="800"
+    Height="600"
+    WindowStartupLocation="CenterOwner">
+
+    <Grid Margin="10">
+
+        <TextBox
+            x:Name="ContentTextBox"
+            IsReadOnly="True"
+            TextWrapping="NoWrap"
+            FontFamily="Consolas"
+            FontSize="13"
+            AcceptsReturn="True"
+            VerticalScrollBarVisibility="Auto"
+            HorizontalScrollBarVisibility="Auto"/>
+
+    </Grid>
+
+</Window>

@@ -40,3 +40,5 @@ C:\BotBridge\BotBridge.UI\obj\Debug\net8.0-windows\Views\SettingsView.baml
 C:\BotBridge\BotBridge.UI\obj\Debug\net8.0-windows\Views\SettingsView.g.cs
 C:\BotBridge\BotBridge.UI\bin\Debug\net8.0-windows\Assets\BotBridge.ico
 C:\BotBridge\BotBridge.UI\obj\Debug\net8.0-windows\BotBridge.UI_Content.g.cs
+C:\BotBridge\BotBridge.UI\obj\Debug\net8.0-windows\Views\LogDetailWindow.baml
+C:\BotBridge\BotBridge.UI\obj\Debug\net8.0-windows\Views\LogDetailWindow.g.cs

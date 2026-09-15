@@ -45,10 +45,18 @@ public sealed class AutomationService : IAutomationService
                     $"Process file not found: {processPath}");
             }
 
+            var processConfig =
+                _configurationService.Current.Processes
+                    .FirstOrDefault(x =>
+                        x.Name == processName);
+
+            var timeoutMinutes =
+                processConfig?.TimeoutMinutes
+                    ?? _configurationService.Current
+                        .ProcessTimeoutMinutes;
+
             var timeout =
-                TimeSpan.FromMinutes(
-                    _configurationService.Current
-                        .ProcessTimeoutMinutes);
+                TimeSpan.FromMinutes(timeoutMinutes);
 
             using var process = new Process();
 

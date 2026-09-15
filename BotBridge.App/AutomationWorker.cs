@@ -13,6 +13,7 @@ public sealed class AutomationWorker
 
     private CancellationTokenSource? _workerCts;
     private Task? _workerTask;
+    private DateTimeOffset? _lastMissedExecutionCheck;
 
     public AutomationWorker(
         IConfigurationService configurationService,
@@ -136,6 +137,14 @@ public sealed class AutomationWorker
                     continue;
                 }
 
+                await CheckMissedExecutionsAsync(
+                    config,
+                    cancellationToken);
+
+                await _scheduleService
+                    .CleanupHistoryAsync(
+                        cancellationToken);
+
                 var next =
                     _scheduleService
                         .GetNextScheduledProcess(
@@ -191,8 +200,7 @@ public sealed class AutomationWorker
                 }
 
                 if (_scheduleService.IsDuplicateExecution(
-                        next.ProcessName,
-                        next.ScheduledTime))
+                        next))
                 {
                     await _logger.WarningAsync(
                         $"Duplicate execution prevented for {next.ProcessName}",
@@ -202,8 +210,7 @@ public sealed class AutomationWorker
                 }
 
                 await ExecuteScheduledProcessAsync(
-                    next.ProcessName,
-                    next.ScheduledTime,
+                    next,
                     cancellationToken);
             }
             catch (OperationCanceledException)
@@ -231,11 +238,65 @@ public sealed class AutomationWorker
         }
     }
 
-    private async Task ExecuteScheduledProcessAsync(
-        string processName,
-        DateTimeOffset scheduledTime,
+    private async Task CheckMissedExecutionsAsync(
+        AppConfig config,
         CancellationToken cancellationToken)
     {
+        var now = DateTimeOffset.Now;
+
+        foreach (var process in config.Processes)
+        {
+            if (!process.Enabled ||
+                !process.Schedule.Enabled ||
+                !process.Schedule.RunMissedExecution)
+            {
+                continue;
+            }
+
+            var lastCheckTime =
+                _lastMissedExecutionCheck ??
+                now - process.Schedule.MaxLateExecutionWindow;
+
+            if (!_scheduleService.IsMissedExecution(
+                    process.Schedule,
+                    lastCheckTime,
+                    now))
+            {
+                continue;
+            }
+
+            var missedRun = new ScheduledProcess
+            {
+                ProcessName = process.Name,
+                Process = process,
+                ScheduledTime = now
+            };
+
+            if (_scheduleService.IsDuplicateExecution(
+                    missedRun))
+            {
+                continue;
+            }
+
+            await _logger.WarningAsync(
+                $"Missed execution detected for {process.Name}; running now.",
+                cancellationToken);
+
+            await ExecuteScheduledProcessAsync(
+                missedRun,
+                cancellationToken);
+        }
+
+        _lastMissedExecutionCheck = now;
+    }
+
+    private async Task ExecuteScheduledProcessAsync(
+        ScheduledProcess scheduledProcess,
+        CancellationToken cancellationToken)
+    {
+        var processName = scheduledProcess.ProcessName;
+        var scheduledTime = scheduledProcess.ScheduledTime;
+
         await _logger.InfoAsync(
             $"Executing process: {processName}",
             cancellationToken);
@@ -259,8 +320,7 @@ public sealed class AutomationWorker
                     cancellationToken);
 
         await _scheduleService.MarkExecutionAsync(
-            processName,
-            scheduledTime,
+            scheduledProcess,
             cancellationToken);
 
         _statusService.Update(status =>

@@ -1,8 +1,9 @@
-using BotBridge.Core.Interfaces;
+using System.IO;
+using BotBridge.Application;
 using BotBridge.UI.ViewModels;
-using BotBridge.Application.Services;
+using BotBridge.UI.Views;
 using Microsoft.Extensions.DependencyInjection;
-using BotBridge.Infrastructure.Configuration;
+
 namespace BotBridge.UI;
 
 public static class DependencyInjection
@@ -10,56 +11,29 @@ public static class DependencyInjection
     public static IServiceCollection AddBotBridgeUi(
         this IServiceCollection services)
     {
-        // Backend services
+        var configPath = Path.Combine(
+            AppContext.BaseDirectory,
+            "Config",
+            "appsettings.json");
 
-        services.AddSingleton<IStatusService,
-            StatusService>();
-
-        services.AddSingleton<
-            IApplicationControlService,
-            ApplicationControlService>();
+        services.AddBotBridge(configPath);
 
         // ViewModels
-
         services.AddSingleton<MainViewModel>();
+        services.AddSingleton<DashboardViewModel>();
+        services.AddSingleton<ProcessesViewModel>();
+        services.AddSingleton<SchedulesViewModel>();
+        services.AddSingleton<LogsViewModel>();
 
-        services.AddTransient<DashboardViewModel>();
+        // Main window
+        services.AddSingleton<MainWindow>();
 
-        services.AddTransient<ProcessesViewModel>();
-
-        services.AddTransient<SchedulesViewModel>();
-
-        services.AddTransient<LogsViewModel>();
-
-        services.AddTransient<SettingsViewModel>();
-        services.AddSingleton<IProcessService,
-            ProcessService>();
-
-        services.AddSingleton<IProcessDiscoveryService,
-            ProcessDiscoveryService>();
-
-        services.AddSingleton<IAutomationService,
-            AutomationService>();
-            
-services.AddSingleton<IConfigurationService>(
-    _ =>
-    {
-        var configPath =
-            @"C:\Users\JeironeMarcoOnsan\Desktop\BotBridge\Config\appsettings.json";
-
-        var service =
-            new JsonConfigurationService(
-                configPath);
-
-        service.LoadAsync()
-            .GetAwaiter()
-            .GetResult();
-
-        return service;
-    });
-
+        // Views
+        services.AddSingleton<DashboardView>();
+        services.AddSingleton<ProcessesView>();
+        services.AddSingleton<SchedulesView>();
+        services.AddSingleton<LogsView>();
 
         return services;
     }
 }
-

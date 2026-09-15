@@ -116,6 +116,38 @@ public sealed class JsonConfigurationService
         Current = config;
     }
 
+    /// <summary>
+    /// Adds a new process/schedule entry, or updates the
+    /// existing entry with a matching process name, then
+    /// persists the configuration to disk.
+    /// </summary>
+    public async Task AddOrUpdateScheduleAsync(
+        ProcessConfig process,
+        CancellationToken cancellationToken = default)
+    {
+        ArgumentNullException.ThrowIfNull(process);
+
+        var updated = Current;
+
+        var existing =
+            updated.Processes.FirstOrDefault(x =>
+                string.Equals(
+                    x.Name,
+                    process.Name,
+                    StringComparison.OrdinalIgnoreCase));
+
+        if (existing is not null)
+        {
+            updated.Processes.Remove(existing);
+        }
+
+        updated.Processes.Add(process);
+
+        await SaveAsync(
+            updated,
+            cancellationToken);
+    }
+
     public Task ValidateAsync(
         AppConfig config,
         CancellationToken cancellationToken = default)

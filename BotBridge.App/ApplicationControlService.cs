@@ -1,6 +1,6 @@
-using BotBridge.Core.Models;
+using BotBridge.Application.Workers;
 using BotBridge.Core.Interfaces;
-using BotBridge.Application.Services;
+using BotBridge.Core.Models;
 
 namespace BotBridge.Application.Services;
 
@@ -9,37 +9,42 @@ public sealed class ApplicationControlService
 {
     private readonly IStatusService _statusService;
 
+    private readonly AutomationWorker _worker;
+
     public bool IsRunning =>
-        _statusService.Current.State !=
-        WorkerState.Stopped;
+        _worker.IsRunning;
 
     public ApplicationControlService(
-        IStatusService statusService)
+        IStatusService statusService,
+        AutomationWorker worker)
     {
-        _statusService = statusService;
+        _statusService =
+            statusService;
+
+        _worker =
+            worker;
     }
 
-    public Task StartAsync(
+    public async Task StartAsync(
         CancellationToken cancellationToken = default)
     {
-        _statusService.Update(status =>
+        if (_worker.IsRunning)
         {
-            status.State =
-                WorkerState.Running;
-        });
+            return;
+        }
 
-        return Task.CompletedTask;
+        await _worker.StartAsync(
+            cancellationToken);
     }
 
-    public Task StopAsync(
+    public async Task StopAsync(
         CancellationToken cancellationToken = default)
     {
-        _statusService.Update(status =>
+        if (!_worker.IsRunning)
         {
-            status.State =
-                WorkerState.Stopped;
-        });
+            return;
+        }
 
-        return Task.CompletedTask;
+        await _worker.StopAsync();
     }
 }

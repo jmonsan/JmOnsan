@@ -1,17 +1,18 @@
 using BotBridge.UI.Services;
 using BotBridge.UI.ViewModels;
 using Microsoft.Extensions.DependencyInjection;
+using System.Windows.Controls;
+
 
 namespace BotBridge.UI.Views;
 
-public partial class ProcessesView
+public partial class ProcessesView : UserControl
 {
-    public ProcessesView()
+    public ProcessesView(
+        ProcessesViewModel viewModel)
     {
         InitializeComponent();
 
-        DataContext =
-            ServiceProviderHost.Provider
-                .GetRequiredService<ProcessesViewModel>();
+        DataContext = viewModel;
     }
 }

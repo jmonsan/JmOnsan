@@ -47,12 +47,27 @@ public interface IScheduleService
         DateTimeOffset scheduledTime);
 
     /// <summary>
+    /// Prevents duplicate execution within the same
+    /// execution window, honoring the process's
+    /// Schedule.PreventDuplicateExecution setting.
+    /// </summary>
+    bool IsDuplicateExecution(
+        ScheduledProcess scheduledProcess);
+
+    /// <summary>
     /// Marks a scheduled execution
     /// as completed.
     /// </summary>
     Task MarkExecutionAsync(
         string processName,
         DateTimeOffset scheduledTime,
+        CancellationToken cancellationToken = default);
+
+    /// <summary>
+    /// Marks a scheduled execution as completed.
+    /// </summary>
+    Task MarkExecutionAsync(
+        ScheduledProcess scheduledProcess,
         CancellationToken cancellationToken = default);
 
     /// <summary>

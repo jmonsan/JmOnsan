@@ -30,7 +30,7 @@
 
         </DockPanel>
 
-        <!-- Logs -->
+        <!-- Log files -->
 
         <Border
             Grid.Row="2"
@@ -39,26 +39,28 @@
             Padding="15">
 
             <DataGrid
-                ItemsSource="{Binding Logs}"
+                ItemsSource="{Binding LogFiles}"
+                SelectedItem="{Binding SelectedLogFile}"
                 AutoGenerateColumns="False"
-                IsReadOnly="True">
+                IsReadOnly="True"
+                MouseDoubleClick="LogFiles_MouseDoubleClick">
 
                 <DataGrid.Columns>
 
                     <DataGridTextColumn
-                        Header="Timestamp"
-                        Binding="{Binding Timestamp}"
+                        Header="Log File"
+                        Binding="{Binding FileName}"
+                        Width="*"/>
+
+                    <DataGridTextColumn
+                        Header="Last Modified"
+                        Binding="{Binding LastModified}"
                         Width="220"/>
 
                     <DataGridTextColumn
-                        Header="Level"
-                        Binding="{Binding Level}"
-                        Width="120"/>
-
-                    <DataGridTextColumn
-                        Header="Message"
-                        Binding="{Binding Message}"
-                        Width="*"/>
+                        Header="Size (bytes)"
+                        Binding="{Binding SizeInBytes}"
+                        Width="150"/>
 
                 </DataGrid.Columns>
 

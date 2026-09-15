@@ -1,3 +1,4 @@
+using System;
 using System.Drawing;
 using System.IO;
 using System.Windows;
@@ -9,9 +10,9 @@ namespace BotBridge.UI.Tray;
 public sealed class TrayIconService : IDisposable
 {
     private readonly TaskbarIcon _trayIcon;
+    private bool _disposed;
 
     public event EventHandler? OpenRequested;
-
     public event EventHandler? ExitRequested;
 
     public TrayIconService()
@@ -83,6 +84,11 @@ public sealed class TrayIconService : IDisposable
         string title,
         string message)
     {
+        if (_disposed)
+        {
+            return;
+        }
+
         _trayIcon.ShowBalloonTip(
             title,
             message,
@@ -91,6 +97,13 @@ public sealed class TrayIconService : IDisposable
 
     public void Dispose()
     {
+        if (_disposed)
+        {
+            return;
+        }
+
+        _disposed = true;
+
         _trayIcon.TrayLeftMouseDown -=
             OnTrayIconClicked;
 
