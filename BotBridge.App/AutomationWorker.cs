@@ -5,6 +5,9 @@ namespace BotBridge.Application.Workers;
 
 public sealed class AutomationWorker
 {
+    private static readonly TimeSpan ConfigRecheckInterval =
+        TimeSpan.FromSeconds(30);
+
     private readonly IConfigurationService _configurationService;
     private readonly IScheduleService _scheduleService;
     private readonly IAutomationService _automationService;
@@ -13,6 +16,7 @@ public sealed class AutomationWorker
 
     private CancellationTokenSource? _workerCts;
     private Task? _workerTask;
+    private Task? _configWatchTask;
     private DateTimeOffset? _lastMissedExecutionCheck;
 
     public AutomationWorker(
@@ -45,6 +49,9 @@ public sealed class AutomationWorker
             "Automation worker starting...",
             cancellationToken);
 
+        await _scheduleService.LoadHistoryAsync(
+            cancellationToken);
+
         _workerCts =
             CancellationTokenSource
                 .CreateLinkedTokenSource(
@@ -60,6 +67,11 @@ public sealed class AutomationWorker
         _workerTask =
             Task.Run(
                 () => WorkerLoopAsync(_workerCts.Token),
+                _workerCts.Token);
+
+        _configWatchTask =
+            Task.Run(
+                () => ConfigWatchLoopAsync(_workerCts.Token),
                 _workerCts.Token);
 
         _statusService.Update(status =>
@@ -96,6 +108,17 @@ public sealed class AutomationWorker
             try
             {
                 await _workerTask;
+            }
+            catch (OperationCanceledException)
+            {
+            }
+        }
+
+        if (_configWatchTask is not null)
+        {
+            try
+            {
+                await _configWatchTask;
             }
             catch (OperationCanceledException)
             {
@@ -233,6 +256,40 @@ public sealed class AutomationWorker
 
                 await Task.Delay(
                     TimeSpan.FromSeconds(30),
+                    cancellationToken);
+            }
+        }
+    }
+
+    /// <summary>
+    /// Config.json is the app's "memory" — the backend must
+    /// notice edits made to it (new/changed schedules, toggled
+    /// processes, etc.) without requiring a restart. This loop
+    /// re-reads appsettings.json from the fixed Desktop Config
+    /// folder every 30 seconds for the lifetime of the worker.
+    /// </summary>
+    private async Task ConfigWatchLoopAsync(
+        CancellationToken cancellationToken)
+    {
+        while (!cancellationToken.IsCancellationRequested)
+        {
+            try
+            {
+                await Task.Delay(
+                    ConfigRecheckInterval,
+                    cancellationToken);
+
+                await _configurationService.ReloadAsync(
+                    cancellationToken);
+            }
+            catch (OperationCanceledException)
+            {
+                break;
+            }
+            catch (Exception ex)
+            {
+                await _logger.ErrorAsync(
+                    ex,
                     cancellationToken);
             }
         }

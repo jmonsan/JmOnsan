@@ -3,20 +3,26 @@
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
 
-    <Grid Margin="20">
+    <Grid Margin="36,32,36,32">
 
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
-            <RowDefinition Height="10"/>
+            <RowDefinition Height="24"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
 
         <!-- Header -->
 
-        <TextBlock
-            Text="Schedules"
-            FontSize="30"
-            FontWeight="SemiBold"/>
+        <StackPanel>
+
+            <TextBlock Text="Schedules" Style="{StaticResource TextDisplay}"/>
+
+            <TextBlock
+                Text="Create and manage when each process runs."
+                Style="{StaticResource TextSecondary}"
+                Margin="0,6,0,0"/>
+
+        </StackPanel>
 
         <!-- Content -->
 
@@ -30,118 +36,181 @@
 
             <!-- Schedule Grid -->
 
-            <Border
-                Background="White"
-                CornerRadius="8"
-                Padding="15">
+            <Border Style="{StaticResource CardStyle}" Padding="16">
 
-                <DockPanel>
+                <Grid>
 
-                    <Button
-                        Content="Refresh"
-                        Height="35"
-                        Width="120"
-                        DockPanel.Dock="Top"
-                        Margin="0,0,0,10"
-                        Command="{Binding RefreshCommand}" />
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="14"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
 
-                    <DataGrid
-                        ItemsSource="{Binding Schedules}"
-                        SelectedItem="{Binding SelectedSchedule}"
-                        AutoGenerateColumns="False"
-                        IsReadOnly="True">
+                    <Grid>
 
-                        <DataGrid.Columns>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
 
-                            <DataGridTextColumn
-                                Header="Process"
-                                Binding="{Binding ProcessName}"
-                                Width="*" />
+                        <TextBlock
+                            Text="All Schedules"
+                            Style="{StaticResource TextTitle}"
+                            FontSize="14"
+                            VerticalAlignment="Center"/>
 
-                            <DataGridTextColumn
-                                Header="Type"
-                                Binding="{Binding ScheduleType}"
-                                Width="120" />
+                        <Button
+                            Grid.Column="1"
+                            Style="{StaticResource SecondaryButtonStyle}"
+                            Height="32"
+                            Padding="12,0"
+                            Command="{Binding RefreshCommand}">
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock
+                                    Text="&#xE72C;"
+                                    FontFamily="{StaticResource FontIcon}"
+                                    FontSize="12"
+                                    VerticalAlignment="Center"/>
+                                <TextBlock
+                                    Text="Refresh"
+                                    Margin="6,0,0,0"
+                                    FontSize="12.5"
+                                    VerticalAlignment="Center"/>
+                            </StackPanel>
+                        </Button>
 
-                            <DataGridTextColumn
-                                Header="Next Run"
-                                Binding="{Binding StartDateTime}"
-                                Width="220" />
+                    </Grid>
 
-                            <DataGridCheckBoxColumn
-                                Header="Enabled"
-                                Binding="{Binding Enabled}"
-                                Width="100" />
+                    <Grid Grid.Row="2">
 
-                        </DataGrid.Columns>
+                        <DataGrid
+                            Style="{StaticResource DataGridStyle}"
+                            ItemsSource="{Binding Schedules}"
+                            SelectedItem="{Binding SelectedSchedule}"
+                            AutoGenerateColumns="False"
+                            IsReadOnly="True">
 
-                    </DataGrid>
+                            <DataGrid.Columns>
 
-                </DockPanel>
+                                <DataGridTextColumn
+                                    Header="PROCESS"
+                                    Binding="{Binding ProcessName}"
+                                    Width="*"/>
+
+                                <DataGridTextColumn
+                                    Header="TYPE"
+                                    Binding="{Binding ScheduleType}"
+                                    Width="110"/>
+
+                                <DataGridTextColumn
+                                    Header="NEXT RUN"
+                                    Binding="{Binding StartDateTime}"
+                                    Width="200"/>
+
+                                <DataGridCheckBoxColumn
+                                    Header="ENABLED"
+                                    Binding="{Binding Enabled}"
+                                    Width="90"/>
+
+                            </DataGrid.Columns>
+
+                        </DataGrid>
+
+                        <StackPanel
+                            VerticalAlignment="Center"
+                            HorizontalAlignment="Center"
+                            Visibility="{Binding Schedules.Count, Converter={StaticResource CountToVisibilityConverter}}">
+
+                            <TextBlock
+                                Text="&#xE787;"
+                                FontFamily="{StaticResource FontIcon}"
+                                FontSize="26"
+                                Foreground="{StaticResource BrushTextMuted}"
+                                HorizontalAlignment="Center"/>
+
+                            <TextBlock
+                                Text="No schedules yet"
+                                Style="{StaticResource TextSecondary}"
+                                Margin="0,10,0,0"
+                                HorizontalAlignment="Center"/>
+
+                            <TextBlock
+                                Text="Create one using the panel on the right"
+                                Style="{StaticResource TextSecondary}"
+                                Foreground="{StaticResource BrushTextMuted}"
+                                FontSize="11.5"
+                                HorizontalAlignment="Center"/>
+
+                        </StackPanel>
+
+                    </Grid>
+
+                </Grid>
 
             </Border>
 
             <!-- Create / Update Schedule -->
 
-            <Border
-                Grid.Column="2"
-                Background="White"
-                CornerRadius="8"
-                Padding="15">
+            <Border Grid.Column="2" Style="{StaticResource CardStyle}" Padding="20">
 
                 <StackPanel>
 
                     <TextBlock
                         Text="Create / Update Schedule"
-                        FontSize="16"
-                        FontWeight="SemiBold"
-                        Margin="0,0,0,15"/>
+                        Style="{StaticResource TextTitle}"
+                        FontSize="15"
+                        Margin="0,0,0,20"/>
 
-                    <TextBlock Text="Process"/>
+                    <TextBlock Text="PROCESS" Style="{StaticResource FieldLabelStyle}"/>
 
                     <ComboBox
+                        Style="{StaticResource ComboBoxStyle}"
+                        ItemContainerStyle="{StaticResource ComboBoxItemStyle}"
                         ItemsSource="{Binding AvailableProcesses}"
                         SelectedItem="{Binding SelectedProcessName}"
-                        Margin="0,5,0,15"/>
+                        Margin="0,0,0,16"/>
 
-                    <TextBlock Text="Schedule Type"/>
+                    <TextBlock Text="SCHEDULE TYPE" Style="{StaticResource FieldLabelStyle}"/>
 
                     <ComboBox
+                        Style="{StaticResource ComboBoxStyle}"
+                        ItemContainerStyle="{StaticResource ComboBoxItemStyle}"
                         ItemsSource="{Binding ScheduleTypes}"
                         SelectedItem="{Binding SelectedScheduleType}"
-                        Margin="0,5,0,15"/>
+                        Margin="0,0,0,16"/>
 
-                    <TextBlock Text="Start Date/Time (yyyy-MM-dd HH:mm:ss)"/>
+                    <TextBlock Text="START DATE / TIME" Style="{StaticResource FieldLabelStyle}"/>
 
                     <TextBox
+                        Style="{StaticResource TextBoxStyle}"
                         Text="{Binding StartDateTimeText, UpdateSourceTrigger=PropertyChanged}"
-                        Margin="0,5,0,15"/>
+                        Margin="0,0,0,4"/>
 
-                    <TextBlock Text="Day of Week (Weekly only)"/>
+                    <TextBlock
+                        Text="Format: yyyy-MM-dd HH:mm:ss"
+                        FontSize="11"
+                        Foreground="{StaticResource BrushTextMuted}"
+                        Margin="1,0,0,16"/>
+
+                    <TextBlock Text="DAY OF WEEK (WEEKLY ONLY)" Style="{StaticResource FieldLabelStyle}"/>
 
                     <ComboBox
+                        Style="{StaticResource ComboBoxStyle}"
+                        ItemContainerStyle="{StaticResource ComboBoxItemStyle}"
                         ItemsSource="{Binding DaysOfWeek}"
                         SelectedItem="{Binding SelectedDayOfWeek}"
-                        Margin="0,5,0,15"/>
+                        Margin="0,0,0,18"/>
 
                     <CheckBox
                         Content="Enabled"
+                        Style="{StaticResource CheckBoxStyle}"
                         IsChecked="{Binding ScheduleEnabled}"
-                        Margin="0,0,0,10"/>
-
-                    <CheckBox
-                        Content="Run Missed Execution"
-                        IsChecked="{Binding RunMissedExecution}"
-                        Margin="0,0,0,10"/>
-
-                    <CheckBox
-                        Content="Prevent Duplicate Execution"
-                        IsChecked="{Binding PreventDuplicateExecution}"
-                        Margin="0,0,0,15"/>
+                        Margin="0,0,0,20"/>
 
                     <Button
                         Content="Save Schedule"
-                        Height="35"
+                        Style="{StaticResource PrimaryButtonStyle}"
+                        HorizontalAlignment="Stretch"
                         Command="{Binding SaveCommand}"/>
 
                 </StackPanel>

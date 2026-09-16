@@ -10,11 +10,11 @@ none
 false
 TRACE;DEBUG;NET;NET8_0;NETCOREAPP
 C:\BotBridge\BotBridge.UI\App.xaml
-7-536128623
+9-291574735
 1979164317
-251129739765
+25680087328
 211918929027
-MainWindow.xaml;Views\DashboardView.xaml;Views\LogDetailWindow.xaml;Views\LogsView.xaml;Views\ProcessesView.xaml;Views\SchedulesView.xaml;Views\SettingsView.xaml;
+MainWindow.xaml;Themes\Colors.xaml;Themes\Controls.xaml;Themes\Typography.xaml;Views\DashboardView.xaml;Views\LogDetailWindow.xaml;Views\LogsView.xaml;Views\ProcessesView.xaml;Views\SchedulesView.xaml;
 
 False
 

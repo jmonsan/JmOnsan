@@ -1,0 +1,99 @@
+<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <!-- ================= Brand ================= -->
+
+    <Color x:Key="ColorBrand50">#EEF2FF</Color>
+    <Color x:Key="ColorBrand100">#E0E7FF</Color>
+    <Color x:Key="ColorBrand400">#818CF8</Color>
+    <Color x:Key="ColorBrand500">#6366F1</Color>
+    <Color x:Key="ColorBrand600">#4F46E5</Color>
+    <Color x:Key="ColorBrand700">#4338CA</Color>
+
+    <SolidColorBrush x:Key="BrushBrandSubtle" Color="{StaticResource ColorBrand50}"/>
+    <SolidColorBrush x:Key="BrushBrandSubtleStrong" Color="{StaticResource ColorBrand100}"/>
+    <SolidColorBrush x:Key="BrushBrand" Color="{StaticResource ColorBrand500}"/>
+    <SolidColorBrush x:Key="BrushBrandHover" Color="{StaticResource ColorBrand600}"/>
+    <SolidColorBrush x:Key="BrushBrandPressed" Color="{StaticResource ColorBrand700}"/>
+
+    <LinearGradientBrush x:Key="BrushBrandGradient" StartPoint="0,0" EndPoint="1,1">
+        <GradientStop Color="{StaticResource ColorBrand400}" Offset="0"/>
+        <GradientStop Color="{StaticResource ColorBrand600}" Offset="1"/>
+    </LinearGradientBrush>
+
+    <!-- ================= Neutrals (Slate) ================= -->
+
+    <Color x:Key="ColorSlate50">#F8FAFC</Color>
+    <Color x:Key="ColorSlate100">#F1F5F9</Color>
+    <Color x:Key="ColorSlate200">#E2E8F0</Color>
+    <Color x:Key="ColorSlate300">#CBD5E1</Color>
+    <Color x:Key="ColorSlate400">#94A3B8</Color>
+    <Color x:Key="ColorSlate500">#64748B</Color>
+    <Color x:Key="ColorSlate600">#475569</Color>
+    <Color x:Key="ColorSlate700">#334155</Color>
+    <Color x:Key="ColorSlate800">#1E293B</Color>
+    <Color x:Key="ColorSlate900">#0F172A</Color>
+    <Color x:Key="ColorSlate950">#0B1120</Color>
+
+    <SolidColorBrush x:Key="BrushSlate50" Color="{StaticResource ColorSlate50}"/>
+    <SolidColorBrush x:Key="BrushSlate100" Color="{StaticResource ColorSlate100}"/>
+    <SolidColorBrush x:Key="BrushSlate200" Color="{StaticResource ColorSlate200}"/>
+    <SolidColorBrush x:Key="BrushSlate300" Color="{StaticResource ColorSlate300}"/>
+    <SolidColorBrush x:Key="BrushSlate400" Color="{StaticResource ColorSlate400}"/>
+    <SolidColorBrush x:Key="BrushSlate500" Color="{StaticResource ColorSlate500}"/>
+    <SolidColorBrush x:Key="BrushSlate600" Color="{StaticResource ColorSlate600}"/>
+    <SolidColorBrush x:Key="BrushSlate700" Color="{StaticResource ColorSlate700}"/>
+    <SolidColorBrush x:Key="BrushSlate800" Color="{StaticResource ColorSlate800}"/>
+    <SolidColorBrush x:Key="BrushSlate900" Color="{StaticResource ColorSlate900}"/>
+
+    <SolidColorBrush x:Key="BrushPageBackground" Color="{StaticResource ColorSlate50}"/>
+    <SolidColorBrush x:Key="BrushSurface" Color="#FFFFFF"/>
+    <SolidColorBrush x:Key="BrushSurfaceAlt" Color="{StaticResource ColorSlate50}"/>
+
+    <SolidColorBrush x:Key="BrushBorder" Color="{StaticResource ColorSlate200}"/>
+    <SolidColorBrush x:Key="BrushBorderStrong" Color="{StaticResource ColorSlate300}"/>
+
+    <SolidColorBrush x:Key="BrushTextPrimary" Color="{StaticResource ColorSlate900}"/>
+    <SolidColorBrush x:Key="BrushTextSecondary" Color="{StaticResource ColorSlate500}"/>
+    <SolidColorBrush x:Key="BrushTextMuted" Color="{StaticResource ColorSlate400}"/>
+    <SolidColorBrush x:Key="BrushTextInverse" Color="#FFFFFF"/>
+
+    <!-- ================= Sidebar ================= -->
+
+    <SolidColorBrush x:Key="BrushSidebarBackground" Color="{StaticResource ColorSlate900}"/>
+    <SolidColorBrush x:Key="BrushSidebarHover" Color="#26344A"/>
+    <SolidColorBrush x:Key="BrushSidebarActive" Color="{StaticResource ColorBrand600}"/>
+    <SolidColorBrush x:Key="BrushSidebarText" Color="#E2E8F0"/>
+    <SolidColorBrush x:Key="BrushSidebarTextHover" Color="#FFFFFF"/>
+    <SolidColorBrush x:Key="BrushSidebarTextActive" Color="#FFFFFF"/>
+    <SolidColorBrush x:Key="BrushSidebarTextMuted" Color="#94A3B8"/>
+    <SolidColorBrush x:Key="BrushSidebarBorder" Color="#1E293B"/>
+
+    <!-- ================= Semantic ================= -->
+
+    <Color x:Key="ColorSuccess">#10B981</Color>
+    <Color x:Key="ColorWarning">#F59E0B</Color>
+    <Color x:Key="ColorDanger">#EF4444</Color>
+    <Color x:Key="ColorInfo">#3B82F6</Color>
+
+    <SolidColorBrush x:Key="BrushSuccess" Color="{StaticResource ColorSuccess}"/>
+    <SolidColorBrush x:Key="BrushSuccessBg" Color="#ECFDF5"/>
+    <SolidColorBrush x:Key="BrushWarning" Color="{StaticResource ColorWarning}"/>
+    <SolidColorBrush x:Key="BrushWarningBg" Color="#FFFBEB"/>
+    <SolidColorBrush x:Key="BrushDanger" Color="{StaticResource ColorDanger}"/>
+    <SolidColorBrush x:Key="BrushDangerBg" Color="#FEF2F2"/>
+    <SolidColorBrush x:Key="BrushInfo" Color="{StaticResource ColorInfo}"/>
+    <SolidColorBrush x:Key="BrushInfoBg" Color="#EFF6FF"/>
+
+    <!-- Re-tint the OS selection colors so stock ListBox / DataGrid
+         selection chrome matches the design system without a full
+         control re-template. -->
+
+    <SolidColorBrush x:Key="{x:Static SystemColors.HighlightBrushKey}" Color="{StaticResource ColorBrand50}"/>
+    <SolidColorBrush x:Key="{x:Static SystemColors.HighlightTextBrushKey}" Color="{StaticResource ColorSlate900}"/>
+    <SolidColorBrush x:Key="{x:Static SystemColors.ControlBrushKey}" Color="#FFFFFF"/>
+    <SolidColorBrush x:Key="{x:Static SystemColors.WindowBrushKey}" Color="#FFFFFF"/>
+    <SolidColorBrush x:Key="{x:Static SystemColors.InactiveSelectionHighlightBrushKey}" Color="{StaticResource ColorSlate100}"/>
+
+</ResourceDictionary>

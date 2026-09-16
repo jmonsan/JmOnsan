@@ -1,9 +1,9 @@
 ﻿using System.ComponentModel;
-using System.Windows;
 using BotBridge.UI.Services;
 using BotBridge.UI.Tray;
 using BotBridge.UI.ViewModels;
 using Microsoft.Extensions.DependencyInjection;
+using System.Windows;
 
 namespace BotBridge.UI;
 
@@ -14,7 +14,10 @@ public partial class MainWindow : Window
 
     public MainWindow()
     {
-        InitializeComponent();
+        InitializeComponent(); 
+
+        Left = SystemParameters.WorkArea.Right - Width;
+        Top = SystemParameters.WorkArea.Bottom - Height;
 
         DataContext =
             ServiceProviderHost.Provider
@@ -28,6 +31,7 @@ public partial class MainWindow : Window
         _trayIconService.ExitRequested +=
             (_, _) => ExitApplication();
     }
+
 
     protected override void OnClosing(CancelEventArgs e)
     {

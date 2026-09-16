@@ -1,4 +1,3 @@
-using System.IO;
 using BotBridge.Application;
 using BotBridge.UI.ViewModels;
 using BotBridge.UI.Views;
@@ -11,12 +10,10 @@ public static class DependencyInjection
     public static IServiceCollection AddBotBridgeUi(
         this IServiceCollection services)
     {
-        var configPath = Path.Combine(
-            AppContext.BaseDirectory,
-            "Config",
-            "appsettings.json");
-
-        services.AddBotBridge(configPath);
+        // No path parameter: config, logs, execution history and
+        // status all live at the fixed Desktop\BotBridge locations
+        // (see BotBridge.Core.DesktopPaths).
+        services.AddBotBridge();
 
         // ViewModels
         services.AddSingleton<MainViewModel>();

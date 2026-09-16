@@ -1,12 +1,57 @@
 using BotBridge.Core.Interfaces;
 using BotBridge.Core.Models;
+using BotBridge.Infrastructure.Persistence;
 
 namespace BotBridge.Application.Services;
 
 public sealed class ScheduleService : IScheduleService
 {
+    private readonly IExecutionHistoryStore
+        _executionHistoryStore;
+
     private readonly Dictionary<string, DateTimeOffset>
         _executionHistory = new();
+
+    private bool _historyLoaded;
+
+    public ScheduleService(
+        IExecutionHistoryStore executionHistoryStore)
+    {
+        _executionHistoryStore =
+            executionHistoryStore;
+    }
+
+    /// <summary>
+    /// Loads persisted execution-history.json into the
+    /// in-memory duplicate-execution cache. Safe to call
+    /// more than once; only loads from disk the first time.
+    /// </summary>
+    public async Task LoadHistoryAsync(
+        CancellationToken cancellationToken = default)
+    {
+        if (_historyLoaded)
+        {
+            return;
+        }
+
+        var records =
+            await _executionHistoryStore
+                .GetAllAsync(cancellationToken);
+
+        foreach (var group in records
+                     .GroupBy(x => x.ProcessName))
+        {
+            var latest =
+                group
+                    .OrderByDescending(x => x.ScheduledTime)
+                    .First();
+
+            _executionHistory[group.Key] =
+                latest.ScheduledTime;
+        }
+
+        _historyLoaded = true;
+    }
 
     public DateTimeOffset? GetNextRun(
         ScheduleDefinition schedule,
@@ -131,7 +176,7 @@ public sealed class ScheduleService : IScheduleService
             scheduledProcess.ScheduledTime);
     }
 
-    public Task MarkExecutionAsync(
+    public async Task MarkExecutionAsync(
         string processName,
         DateTimeOffset scheduledTime,
         CancellationToken cancellationToken = default)
@@ -139,7 +184,12 @@ public sealed class ScheduleService : IScheduleService
         _executionHistory[processName] =
             scheduledTime;
 
-        return Task.CompletedTask;
+        // Write-through to execution-history.json so this
+        // survives an app restart.
+        await _executionHistoryStore.MarkExecutedAsync(
+            processName,
+            scheduledTime,
+            cancellationToken);
     }
 
     public Task MarkExecutionAsync(
@@ -155,7 +205,7 @@ public sealed class ScheduleService : IScheduleService
             cancellationToken);
     }
 
-    public Task CleanupHistoryAsync(
+    public async Task CleanupHistoryAsync(
         CancellationToken cancellationToken = default)
     {
         var cutoff =
@@ -172,7 +222,11 @@ public sealed class ScheduleService : IScheduleService
             _executionHistory.Remove(key);
         }
 
-        return Task.CompletedTask;
+        // Keep execution-history.json in sync with the
+        // same 30-day retention window.
+        await _executionHistoryStore.CleanupAsync(
+            TimeSpan.FromDays(30),
+            cancellationToken);
     }
 
     private static DateTimeOffset? GetNextOnceRun(

@@ -3,20 +3,26 @@
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
 
-    <Grid Margin="20">
+    <Grid Margin="36,32,36,32">
 
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
-            <RowDefinition Height="10"/>
+            <RowDefinition Height="24"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
 
         <!-- Header -->
 
-        <TextBlock
-            Text="Processes"
-            FontSize="30"
-            FontWeight="SemiBold"/>
+        <StackPanel>
+
+            <TextBlock Text="Processes" Style="{StaticResource TextDisplay}"/>
+
+            <TextBlock
+                Text="Edit, save and run the .bat files registered in your Packages folder."
+                Style="{StaticResource TextSecondary}"
+                Margin="0,6,0,0"/>
+
+        </StackPanel>
 
         <!-- Content -->
 
@@ -24,35 +30,94 @@
 
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="300"/>
-                <ColumnDefinition Width="10"/>
+                <ColumnDefinition Width="20"/>
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
 
             <!-- Process List -->
 
-            <Border
-                Background="White"
-                CornerRadius="8"
-                Padding="10">
+            <Border Style="{StaticResource CardStyle}" Padding="16">
 
                 <Grid>
 
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto"/>
-                        <RowDefinition Height="10"/>
+                        <RowDefinition Height="14"/>
                         <RowDefinition Height="*"/>
                     </Grid.RowDefinitions>
 
-                    <Button
-                        Content="Refresh"
-                        Height="35"
-                        Command="{Binding RefreshCommand}"/>
+                    <Grid>
 
-                    <ListBox
-                        Grid.Row="2"
-                        ItemsSource="{Binding Processes}"
-                        SelectedItem="{Binding SelectedProcess}"
-                        DisplayMemberPath="Name"/>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
+
+                        <TextBlock
+                            Text="Available"
+                            Style="{StaticResource TextTitle}"
+                            FontSize="14"
+                            VerticalAlignment="Center"/>
+
+                        <Button
+                            Grid.Column="1"
+                            Style="{StaticResource SecondaryButtonStyle}"
+                            Height="32"
+                            Padding="12,0"
+                            Command="{Binding RefreshCommand}">
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock
+                                    Text="&#xE72C;"
+                                    FontFamily="{StaticResource FontIcon}"
+                                    FontSize="12"
+                                    VerticalAlignment="Center"/>
+                                <TextBlock
+                                    Text="Refresh"
+                                    Margin="6,0,0,0"
+                                    FontSize="12.5"
+                                    VerticalAlignment="Center"/>
+                            </StackPanel>
+                        </Button>
+
+                    </Grid>
+
+                    <Grid Grid.Row="2">
+
+                        <ListBox
+                            Style="{StaticResource ListBoxStyle}"
+                            ItemContainerStyle="{StaticResource ListBoxItemStyle}"
+                            ItemsSource="{Binding Processes}"
+                            SelectedItem="{Binding SelectedProcess}"
+                            DisplayMemberPath="Name"/>
+
+                        <StackPanel
+                            VerticalAlignment="Center"
+                            HorizontalAlignment="Center"
+                            Visibility="{Binding Processes.Count, Converter={StaticResource CountToVisibilityConverter}}">
+
+                            <TextBlock
+                                Text="&#xE7C3;"
+                                FontFamily="{StaticResource FontIcon}"
+                                FontSize="26"
+                                Foreground="{StaticResource BrushTextMuted}"
+                                HorizontalAlignment="Center"/>
+
+                            <TextBlock
+                                Text="No .bat files found"
+                                Style="{StaticResource TextSecondary}"
+                                Margin="0,10,0,0"
+                                HorizontalAlignment="Center"/>
+
+                            <TextBlock
+                                Text="Add one to your Packages folder"
+                                Style="{StaticResource TextSecondary}"
+                                Foreground="{StaticResource BrushTextMuted}"
+                                FontSize="11.5"
+                                HorizontalAlignment="Center"/>
+
+                        </StackPanel>
+
+                    </Grid>
 
                 </Grid>
 
@@ -60,60 +125,135 @@
 
             <!-- Editor -->
 
-            <Border
-                Grid.Column="2"
-                Background="White"
-                CornerRadius="8"
-                Padding="15">
+            <Border Grid.Column="2" Style="{StaticResource CardStyle}" Padding="20">
 
                 <Grid>
 
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="Auto"/>
-                        <RowDefinition Height="10"/>
-                        <RowDefinition Height="*"/>
-                        <RowDefinition Height="10"/>
-                        <RowDefinition Height="Auto"/>
-                    </Grid.RowDefinitions>
+                    <Grid Visibility="{Binding SelectedProcess, Converter={StaticResource NullToVisibilityConverter}}">
 
-                    <!-- Selected Process -->
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="16"/>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="16"/>
+                            <RowDefinition Height="Auto"/>
+                        </Grid.RowDefinitions>
 
-                    <TextBlock
-                        Text="{Binding SelectedProcess.Name}"
-                        FontSize="20"
-                        FontWeight="SemiBold"/>
+                        <!-- Selected Process -->
 
-                    <!-- BAT File Content -->
+                        <StackPanel Orientation="Horizontal">
 
-                    <TextBox
-                        Grid.Row="2"
-                        Text="{Binding ProcessContent, UpdateSourceTrigger=PropertyChanged}"
-                        AcceptsReturn="True"
-                        AcceptsTab="True"
-                        VerticalScrollBarVisibility="Auto"
-                        HorizontalScrollBarVisibility="Auto"
-                        FontFamily="Consolas"
-                        FontSize="13"
-                        TextWrapping="NoWrap"/>
+                            <Border
+                                Width="36"
+                                Height="36"
+                                CornerRadius="9"
+                                Background="{StaticResource BrushBrandSubtle}">
 
-                    <!-- Actions -->
+                                <TextBlock
+                                    Text="&#xE7C3;"
+                                    FontFamily="{StaticResource FontIcon}"
+                                    FontSize="16"
+                                    Foreground="{StaticResource BrushBrand}"
+                                    HorizontalAlignment="Center"
+                                    VerticalAlignment="Center"/>
+
+                            </Border>
+
+                            <StackPanel Margin="12,0,0,0" VerticalAlignment="Center">
+
+                                <TextBlock
+                                    Text="{Binding SelectedProcess.Name}"
+                                    Style="{StaticResource TextTitle}"
+                                    FontSize="17"/>
+
+                                <TextBlock
+                                    Text="Editing .bat contents"
+                                    Style="{StaticResource TextSecondary}"
+                                    FontSize="12"/>
+
+                            </StackPanel>
+
+                        </StackPanel>
+
+                        <!-- BAT File Content -->
+
+                        <Border
+                            Grid.Row="2"
+                            CornerRadius="10"
+                            Background="{StaticResource BrushSlate900}">
+
+                            <TextBox
+                                Style="{StaticResource CodeEditorTextBoxStyle}"
+                                BorderThickness="0"
+                                Background="Transparent"
+                                Text="{Binding ProcessContent, UpdateSourceTrigger=PropertyChanged}"/>
+
+                        </Border>
+
+                        <!-- Actions -->
+
+                        <StackPanel
+                            Grid.Row="4"
+                            Orientation="Horizontal">
+
+                            <Button
+                                Style="{StaticResource PrimaryButtonStyle}"
+                                Width="130"
+                                Margin="0,0,10,0"
+                                Command="{Binding SaveCommand}">
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock
+                                        Text="&#xE74E;"
+                                        FontFamily="{StaticResource FontIcon}"
+                                        FontSize="13"
+                                        VerticalAlignment="Center"/>
+                                    <TextBlock
+                                        Text="Save"
+                                        Margin="7,0,0,0"
+                                        VerticalAlignment="Center"/>
+                                </StackPanel>
+                            </Button>
+
+                            <Button
+                                Style="{StaticResource SecondaryButtonStyle}"
+                                Width="130"
+                                Command="{Binding RunCommand}">
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock
+                                        Text="&#xE768;"
+                                        FontFamily="{StaticResource FontIcon}"
+                                        FontSize="13"
+                                        Foreground="{StaticResource BrushBrand}"
+                                        VerticalAlignment="Center"/>
+                                    <TextBlock
+                                        Text="Run Now"
+                                        Margin="7,0,0,0"
+                                        VerticalAlignment="Center"/>
+                                </StackPanel>
+                            </Button>
+
+                        </StackPanel>
+
+                    </Grid>
+
+                    <!-- Empty state: nothing selected -->
 
                     <StackPanel
-                        Grid.Row="4"
-                        Orientation="Horizontal">
+                        VerticalAlignment="Center"
+                        HorizontalAlignment="Center"
+                        Visibility="{Binding SelectedProcess, Converter={StaticResource NullToVisibilityConverter}, ConverterParameter=Invert}">
 
-                        <Button
-                            Content="Save"
-                            Width="120"
-                            Height="40"
-                            Margin="0,0,10,0"
-                            Command="{Binding SaveCommand}"/>
+                        <TextBlock
+                            Text="&#xE70F;"
+                            FontFamily="{StaticResource FontIcon}"
+                            FontSize="30"
+                            Foreground="{StaticResource BrushTextMuted}"
+                            HorizontalAlignment="Center"/>
 
-                        <Button
-                            Content="Run Now"
-                            Width="120"
-                            Height="40"
-                            Command="{Binding RunCommand}"/>
+                        <TextBlock
+                            Text="Select a process to view and edit"
+                            Style="{StaticResource TextSecondary}"
+                            Margin="0,12,0,0"/>
 
                     </StackPanel>
 

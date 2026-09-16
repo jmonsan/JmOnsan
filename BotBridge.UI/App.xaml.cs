@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Windows;
+using BotBridge.Application.Workers;
 using BotBridge.Application.Services;
 using BotBridge.Core.Interfaces;
 using BotBridge.UI.Services;
@@ -31,6 +32,14 @@ public partial class App : System.Windows.Application
 
             folderInitializer.EnsureFoldersExist();
 
+            // BotBridge is a background app with no manual
+            // Start/Stop control — the automation worker runs
+            // continuously for the lifetime of the process.
+            var worker =
+                provider.GetRequiredService<AutomationWorker>();
+
+            await worker.StartAsync();
+
             _mainWindow =
                 provider.GetRequiredService<MainWindow>();
 
@@ -49,10 +58,22 @@ public partial class App : System.Windows.Application
         }
     }
 
-    protected override void OnExit(ExitEventArgs e)
+    protected override async void OnExit(ExitEventArgs e)
     {
         try
         {
+            if (ServiceProviderHost.Provider is not null)
+            {
+                var worker =
+                    ServiceProviderHost.Provider
+                        .GetService<AutomationWorker>();
+
+                if (worker is not null)
+                {
+                    await worker.StopAsync();
+                }
+            }
+
             if (ServiceProviderHost.Provider is IDisposable disposable)
             {
                 disposable.Dispose();

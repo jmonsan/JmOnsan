@@ -1,4 +1,5 @@
 using System.Text.Json;
+using BotBridge.Core;
 using BotBridge.Core.Exceptions;
 using BotBridge.Core.Interfaces;
 using BotBridge.Core.Models;
@@ -20,6 +21,15 @@ public sealed class JsonConfigurationService
 
     public AppConfig Current { get; private set; }
         = new();
+
+    /// <summary>
+    /// Always reads/writes the fixed Desktop config file
+    /// (%USERPROFILE%\Desktop\BotBridge\Config\appsettings.json).
+    /// </summary>
+    public JsonConfigurationService()
+        : this(DesktopPaths.AppSettingsFile)
+    {
+    }
 
     public JsonConfigurationService(string configFilePath)
     {
@@ -63,6 +73,12 @@ public sealed class JsonConfigurationService
                     "Unable to deserialize configuration.");
             }
 
+            // Folder locations are fixed/hardcoded and not
+            // user-configurable — always force them to the
+            // Desktop location regardless of what (if
+            // anything) is present in the JSON file.
+            ApplyFixedFolders(config);
+
             await ValidateAsync(
                 config,
                 cancellationToken);
@@ -90,6 +106,8 @@ public sealed class JsonConfigurationService
         CancellationToken cancellationToken = default)
     {
         ArgumentNullException.ThrowIfNull(config);
+
+        ApplyFixedFolders(config);
 
         await ValidateAsync(
             config,
@@ -232,25 +250,18 @@ public sealed class JsonConfigurationService
         }
     }
 
+    private static void ApplyFixedFolders(AppConfig config)
+    {
+        config.PackagesFolder = DesktopPaths.PackagesFolder;
+        config.ConfigFolder = DesktopPaths.ConfigFolder;
+        config.LogsFolder = DesktopPaths.LogsFolder;
+    }
+
     private static AppConfig CreateDefaultConfiguration()
     {
-        return new AppConfig
+        var config = new AppConfig
         {
             Enabled = true,
-            PackagesFolder =
-                Path.Combine(
-                    AppContext.BaseDirectory,
-                    "Packages"),
-
-            ConfigFolder =
-                Path.Combine(
-                    AppContext.BaseDirectory,
-                    "Config"),
-
-            LogsFolder =
-                Path.Combine(
-                    AppContext.BaseDirectory,
-                    "Logs"),
 
             MaxConcurrentTasks = 1,
 
@@ -258,5 +269,9 @@ public sealed class JsonConfigurationService
 
             RunMissedSchedules = true
         };
+
+        ApplyFixedFolders(config);
+
+        return config;
     }
 }

@@ -14,4 +14,5 @@ public partial class LogDetailWindow : Window
 
         ContentTextBox.Text = content;
     }
+
 }

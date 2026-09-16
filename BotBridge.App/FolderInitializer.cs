@@ -1,31 +1,18 @@
-using BotBridge.Core.Interfaces;
+using BotBridge.Core;
 
 namespace BotBridge.Application.Services;
 
 public sealed class FolderInitializer
 {
-    private readonly IConfigurationService
-        _configurationService;
-
-    public FolderInitializer(
-        IConfigurationService configurationService)
-    {
-        _configurationService =
-            configurationService;
-    }
-
     public void EnsureFoldersExist()
     {
-        var config =
-            _configurationService.Current;
+        Directory.CreateDirectory(
+            DesktopPaths.ConfigFolder);
 
         Directory.CreateDirectory(
-            config.ConfigFolder);
+            DesktopPaths.LogsFolder);
 
         Directory.CreateDirectory(
-            config.LogsFolder);
-
-        Directory.CreateDirectory(
-            config.PackagesFolder);
+            DesktopPaths.PackagesFolder);
     }
 }

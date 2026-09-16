@@ -10,14 +10,9 @@ internal static class Program
 {
     public static async Task Main(string[] args)
     {
-        var configPath = Path.Combine(
-            AppContext.BaseDirectory,
-            "config",
-            "appsettings.json");
-
         var services = new ServiceCollection();
 
-        services.AddBotBridge(configPath);
+        services.AddBotBridge();
 
         using var provider =
             services.BuildServiceProvider();

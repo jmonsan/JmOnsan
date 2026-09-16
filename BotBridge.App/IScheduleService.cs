@@ -5,6 +5,15 @@ namespace BotBridge.Core.Interfaces;
 public interface IScheduleService
 {
     /// <summary>
+    /// Loads previously persisted execution history
+    /// (survives app restarts) into the in-memory
+    /// duplicate-execution cache. Call once on startup,
+    /// before the worker loop begins.
+    /// </summary>
+    Task LoadHistoryAsync(
+        CancellationToken cancellationToken = default);
+
+    /// <summary>
     /// Calculates the next execution time
     /// for the specified schedule.
     /// </summary>

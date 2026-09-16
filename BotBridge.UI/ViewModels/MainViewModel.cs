@@ -7,6 +7,8 @@ public sealed class MainViewModel : ViewModelBase
 {
     private object? _currentView;
 
+    private string _activeTab = "Dashboard";
+
     private readonly DashboardView _dashboardView;
     private readonly ProcessesView _processesView;
     private readonly SchedulesView _schedulesView;
@@ -19,6 +21,33 @@ public sealed class MainViewModel : ViewModelBase
             ref _currentView,
             value);
     }
+
+    /// <summary>
+    /// Drives sidebar nav highlighting only — purely presentational,
+    /// does not affect which view is actually shown.
+    /// </summary>
+    public string ActiveTab
+    {
+        get => _activeTab;
+        private set
+        {
+            if (SetProperty(ref _activeTab, value))
+            {
+                OnPropertyChanged(nameof(IsDashboardActive));
+                OnPropertyChanged(nameof(IsProcessesActive));
+                OnPropertyChanged(nameof(IsSchedulesActive));
+                OnPropertyChanged(nameof(IsLogsActive));
+            }
+        }
+    }
+
+    public bool IsDashboardActive => ActiveTab == "Dashboard";
+
+    public bool IsProcessesActive => ActiveTab == "Processes";
+
+    public bool IsSchedulesActive => ActiveTab == "Schedules";
+
+    public bool IsLogsActive => ActiveTab == "Logs";
 
     public RelayCommand ShowDashboardCommand { get; }
 
@@ -40,26 +69,35 @@ public sealed class MainViewModel : ViewModelBase
         _logsView = logsView;
 
         ShowDashboardCommand =
-            new RelayCommand(
-                () => CurrentView =
-                    _dashboardView);
+            new RelayCommand(() =>
+            {
+                CurrentView = _dashboardView;
+                ActiveTab = "Dashboard";
+            });
 
         ShowProcessesCommand =
-            new RelayCommand(
-                () => CurrentView =
-                    _processesView);
+            new RelayCommand(() =>
+            {
+                CurrentView = _processesView;
+                ActiveTab = "Processes";
+            });
 
         ShowSchedulesCommand =
-            new RelayCommand(
-                () => CurrentView =
-                    _schedulesView);
+            new RelayCommand(() =>
+            {
+                CurrentView = _schedulesView;
+                ActiveTab = "Schedules";
+            });
 
         ShowLogsCommand =
-            new RelayCommand(
-                () => CurrentView =
-                    _logsView);
+            new RelayCommand(() =>
+            {
+                CurrentView = _logsView;
+                ActiveTab = "Logs";
+            });
 
         // Dashboard is the initial view.
         CurrentView = _dashboardView;
+        ActiveTab = "Dashboard";
     }
 }
