@@ -107,4 +107,5 @@ The UI follows a small, consistent design system rather than ad-hoc styling per 
 
 ## License
 
-Internal / private project — add a license here if you intend to open-source it.
+Internal / private project
+
