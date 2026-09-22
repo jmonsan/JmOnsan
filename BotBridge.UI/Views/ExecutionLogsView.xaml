@@ -1,0 +1,146 @@
+<UserControl
+    x:Class="BotBridge.UI.Views.ExecutionLogsView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <Grid Margin="36,32,36,32">
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="24"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <!-- Header -->
+
+        <Grid>
+
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+
+            <StackPanel>
+
+                <TextBlock Text="Execution Logs" Style="{StaticResource TextDisplay}"/>
+
+                <TextBlock
+                    Text="UiPath execution logs, auto-refreshed every 5 seconds. Open one to view its full contents."
+                    Style="{StaticResource TextSecondary}"
+                    Margin="0,6,0,0"/>
+
+            </StackPanel>
+
+            <Button
+                Grid.Column="1"
+                Style="{StaticResource SecondaryButtonStyle}"
+                VerticalAlignment="Center"
+                Command="{Binding RefreshCommand}">
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock
+                        Text="&#xE72C;"
+                        FontFamily="{StaticResource FontIcon}"
+                        FontSize="13"
+                        VerticalAlignment="Center"/>
+                    <TextBlock
+                        Text="Refresh"
+                        Margin="7,0,0,0"
+                        VerticalAlignment="Center"/>
+                </StackPanel>
+            </Button>
+
+        </Grid>
+
+        <!-- Log files -->
+
+        <Border Grid.Row="2" Style="{StaticResource CardStyle}" Padding="16">
+
+            <Grid>
+
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+
+                <Border
+                    Background="{StaticResource BrushWarningBg}"
+                    CornerRadius="8"
+                    Padding="12,10"
+                    Margin="0,0,0,12"
+                    Visibility="{Binding StatusMessage, Converter={StaticResource NullToVisibilityConverter}}">
+
+                    <TextBlock
+                        Text="{Binding StatusMessage}"
+                        Foreground="{StaticResource BrushWarning}"
+                        FontSize="12"
+                        TextWrapping="Wrap"/>
+
+                </Border>
+
+                <Grid Grid.Row="1">
+
+                    <DataGrid
+                        Style="{StaticResource DataGridStyle}"
+                        ItemsSource="{Binding LogFiles}"
+                        SelectedItem="{Binding SelectedLogFile}"
+                        AutoGenerateColumns="False"
+                        IsReadOnly="True"
+                        MouseDoubleClick="LogFiles_MouseDoubleClick">
+
+                        <DataGrid.Columns>
+
+                            <DataGridTextColumn
+                                Header="LOG FILE"
+                                Binding="{Binding FileName}"
+                                Width="*"/>
+
+                            <DataGridTextColumn
+                                Header="LAST MODIFIED"
+                                Binding="{Binding LastModified}"
+                                Width="220"/>
+
+                            <DataGridTextColumn
+                                Header="SIZE (BYTES)"
+                                Binding="{Binding SizeInBytes}"
+                                Width="150"/>
+
+                        </DataGrid.Columns>
+
+                    </DataGrid>
+
+                    <StackPanel
+                        VerticalAlignment="Center"
+                        HorizontalAlignment="Center"
+                        Visibility="{Binding LogFiles.Count, Converter={StaticResource CountToVisibilityConverter}}">
+
+                        <TextBlock
+                            Text="&#xE81C;"
+                            FontFamily="{StaticResource FontIcon}"
+                            FontSize="26"
+                            Foreground="{StaticResource BrushTextMuted}"
+                            HorizontalAlignment="Center"/>
+
+                        <TextBlock
+                            Text="No execution logs yet"
+                            Style="{StaticResource TextSecondary}"
+                            Margin="0,10,0,0"
+                            HorizontalAlignment="Center"/>
+
+                        <TextBlock
+                            Text="UiPath logs will appear here once they're written"
+                            Style="{StaticResource TextSecondary}"
+                            Foreground="{StaticResource BrushTextMuted}"
+                            FontSize="11.5"
+                            HorizontalAlignment="Center"/>
+
+                    </StackPanel>
+
+                </Grid>
+
+            </Grid>
+
+        </Border>
+
+    </Grid>
+
+</UserControl>

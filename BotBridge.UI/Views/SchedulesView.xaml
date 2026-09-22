@@ -199,7 +199,11 @@
                         ItemContainerStyle="{StaticResource ComboBoxItemStyle}"
                         ItemsSource="{Binding DaysOfWeek}"
                         SelectedItem="{Binding SelectedDayOfWeek}"
+<<<<<<< HEAD
                         Margin="0,0,0,18"/>
+=======
+                        Margin="0,0,0,16"/>
+>>>>>>> c347f0b (Restore local project)
 
                     <CheckBox
                         Content="Enabled"
@@ -207,6 +211,17 @@
                         IsChecked="{Binding ScheduleEnabled}"
                         Margin="0,0,0,20"/>
 
+<<<<<<< HEAD
+=======
+                    <TextBlock
+                        Text="{Binding ErrorMessage}"
+                        Foreground="{StaticResource BrushDanger}"
+                        FontSize="12"
+                        TextWrapping="Wrap"
+                        Margin="0,0,0,12"
+                        Visibility="{Binding ErrorMessage, Converter={StaticResource NullToVisibilityConverter}}"/>
+
+>>>>>>> c347f0b (Restore local project)
                     <Button
                         Content="Save Schedule"
                         Style="{StaticResource PrimaryButtonStyle}"

@@ -1,3 +1,8 @@
+<<<<<<< HEAD
+=======
+using System.Text.Json.Serialization;
+
+>>>>>>> c347f0b (Restore local project)
 namespace BotBridge.Core.Models;
 
 public sealed class TaskExecutionResult
@@ -22,4 +27,16 @@ public sealed class TaskExecutionResult
         = string.Empty;
 
     public string? Error { get; set; }
+<<<<<<< HEAD
+=======
+
+    /// <summary>
+    /// True when the process could not start because another
+    /// UiPath foreground process was already running. The worker
+    /// puts such an execution back into the Run Queue instead of
+    /// treating it as a failure. Not persisted.
+    /// </summary>
+    [JsonIgnore]
+    public bool IsConflict { get; set; }
+>>>>>>> c347f0b (Restore local project)
 }

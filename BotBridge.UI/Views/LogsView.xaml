@@ -22,7 +22,11 @@
 
             <StackPanel>
 
+<<<<<<< HEAD
                 <TextBlock Text="Logs" Style="{StaticResource TextDisplay}"/>
+=======
+                <TextBlock Text="App Logs" Style="{StaticResource TextDisplay}"/>
+>>>>>>> c347f0b (Restore local project)
 
                 <TextBlock
                     Text="Browse log files and open one to view its full contents."

@@ -10,11 +10,19 @@ none
 false
 TRACE;DEBUG;NET;NET8_0;NETCOREAPP
 C:\BotBridge\BotBridge.UI\App.xaml
+<<<<<<< HEAD
 9-291574735
 1979164317
 25680087328
 211918929027
 MainWindow.xaml;Themes\Colors.xaml;Themes\Controls.xaml;Themes\Typography.xaml;Views\DashboardView.xaml;Views\LogDetailWindow.xaml;Views\LogsView.xaml;Views\ProcessesView.xaml;Views\SchedulesView.xaml;
+=======
+11-340026021
+1979164317
+33-1341345721
+211918929027
+MainWindow.xaml;Themes\Colors.xaml;Themes\Controls.xaml;Themes\Typography.xaml;Views\DashboardView.xaml;Views\ExecutionLogsView.xaml;Views\LogDetailWindow.xaml;Views\LogsView.xaml;Views\ProcessesView.xaml;Views\RunQueueView.xaml;Views\SchedulesView.xaml;
+>>>>>>> c347f0b (Restore local project)
 
 False
 

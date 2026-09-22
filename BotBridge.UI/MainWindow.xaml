@@ -146,6 +146,29 @@
 
                     <Button
                         Style="{StaticResource SidebarNavButtonStyle}"
+<<<<<<< HEAD
+=======
+                        Command="{Binding ShowRunQueueCommand}"
+                        Tag="{Binding IsRunQueueActive}">
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock
+                                Text="&#xE8F1;"
+                                FontFamily="{StaticResource FontIcon}"
+                                FontSize="16"
+                                Width="22"
+                                VerticalAlignment="Center"
+                                Foreground="{Binding Foreground, RelativeSource={RelativeSource AncestorType=Button}}"/>
+                            <TextBlock
+                                Text="Run Queue"
+                                Margin="8,0,0,0"
+                                VerticalAlignment="Center"
+                                Foreground="{Binding Foreground, RelativeSource={RelativeSource AncestorType=Button}}"/>
+                        </StackPanel>
+                    </Button>
+
+                    <Button
+                        Style="{StaticResource SidebarNavButtonStyle}"
+>>>>>>> c347f0b (Restore local project)
                         Command="{Binding ShowLogsCommand}"
                         Tag="{Binding IsLogsActive}">
                         <StackPanel Orientation="Horizontal">
@@ -157,7 +180,31 @@
                                 VerticalAlignment="Center"
                                 Foreground="{Binding Foreground, RelativeSource={RelativeSource AncestorType=Button}}"/>
                             <TextBlock
+<<<<<<< HEAD
                                 Text="Logs"
+=======
+                                Text="App Logs"
+                                Margin="8,0,0,0"
+                                VerticalAlignment="Center"
+                                Foreground="{Binding Foreground, RelativeSource={RelativeSource AncestorType=Button}}"/>
+                        </StackPanel>
+                    </Button>
+
+                    <Button
+                        Style="{StaticResource SidebarNavButtonStyle}"
+                        Command="{Binding ShowExecutionLogsCommand}"
+                        Tag="{Binding IsExecutionLogsActive}">
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock
+                                Text="&#xE9D9;"
+                                FontFamily="{StaticResource FontIcon}"
+                                FontSize="16"
+                                Width="22"
+                                VerticalAlignment="Center"
+                                Foreground="{Binding Foreground, RelativeSource={RelativeSource AncestorType=Button}}"/>
+                            <TextBlock
+                                Text="Execution Logs"
+>>>>>>> c347f0b (Restore local project)
                                 Margin="8,0,0,0"
                                 VerticalAlignment="Center"
                                 Foreground="{Binding Foreground, RelativeSource={RelativeSource AncestorType=Button}}"/>

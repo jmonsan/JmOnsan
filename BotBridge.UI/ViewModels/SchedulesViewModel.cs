@@ -38,6 +38,12 @@ public sealed class SchedulesViewModel
 
     private bool _preventDuplicateExecution = true;
 
+<<<<<<< HEAD
+=======
+    private string?
+        _errorMessage;
+
+>>>>>>> c347f0b (Restore local project)
     public ObservableCollection<ScheduleItemModel>
         Schedules { get; } = [];
 
@@ -129,6 +135,17 @@ public sealed class SchedulesViewModel
             value);
     }
 
+<<<<<<< HEAD
+=======
+    public string? ErrorMessage
+    {
+        get => _errorMessage;
+        private set => SetProperty(
+            ref _errorMessage,
+            value);
+    }
+
+>>>>>>> c347f0b (Restore local project)
     public RelayCommand RefreshCommand
     {
         get;
@@ -273,6 +290,11 @@ public sealed class SchedulesViewModel
 
     private async Task SaveScheduleAsync()
     {
+<<<<<<< HEAD
+=======
+        ErrorMessage = null;
+
+>>>>>>> c347f0b (Restore local project)
         if (string.IsNullOrWhiteSpace(
                 SelectedProcessName))
         {
@@ -334,4 +356,12 @@ public sealed class SchedulesViewModel
 
         await LoadSchedulesAsync();
     }
+<<<<<<< HEAD
+=======
+
+    private void SetError(string message)
+    {
+        ErrorMessage = message;
+    }
+>>>>>>> c347f0b (Restore local project)
 }

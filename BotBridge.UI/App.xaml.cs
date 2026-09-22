@@ -32,9 +32,13 @@ public partial class App : System.Windows.Application
 
             folderInitializer.EnsureFoldersExist();
 
+<<<<<<< HEAD
             // BotBridge is a background app with no manual
             // Start/Stop control — the automation worker runs
             // continuously for the lifetime of the process.
+=======
+
+>>>>>>> c347f0b (Restore local project)
             var worker =
                 provider.GetRequiredService<AutomationWorker>();
 
@@ -81,7 +85,11 @@ public partial class App : System.Windows.Application
         }
         catch
         {
+<<<<<<< HEAD
             // Prevent shutdown errors from crashing the application.
+=======
+
+>>>>>>> c347f0b (Restore local project)
         }
 
         base.OnExit(e);

@@ -57,6 +57,19 @@ public sealed class BackendStatus
     public long FailedExecutions { get; set; }
 
     /// <summary>
+<<<<<<< HEAD
+=======
+    /// Number of executions running right now.
+    /// </summary>
+    public int RunningExecutions { get; set; }
+
+    /// <summary>
+    /// Number of executions waiting in the Run Queue.
+    /// </summary>
+    public int QueuedExecutions { get; set; }
+
+    /// <summary>
+>>>>>>> c347f0b (Restore local project)
     /// Time when the worker started.
     /// </summary>
     public DateTimeOffset? StartedAt { get; set; }

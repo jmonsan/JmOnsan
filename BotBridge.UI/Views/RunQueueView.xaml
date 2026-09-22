@@ -1,0 +1,167 @@
+<UserControl
+    x:Class="BotBridge.UI.Views.RunQueueView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <Grid Margin="36,32,36,32">
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="24"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <!-- Header -->
+
+        <Grid>
+
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+
+            <StackPanel>
+
+                <TextBlock Text="Run Queue" Style="{StaticResource TextDisplay}"/>
+
+                <TextBlock
+                    Text="Processes that collided with a running execution wait here instead of being skipped or killed."
+                    Style="{StaticResource TextSecondary}"
+                    Margin="0,6,0,0"/>
+
+            </StackPanel>
+
+            <Button
+                Grid.Column="1"
+                Style="{StaticResource SecondaryButtonStyle}"
+                VerticalAlignment="Center"
+                Command="{Binding RefreshCommand}">
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock
+                        Text="&#xE72C;"
+                        FontFamily="{StaticResource FontIcon}"
+                        FontSize="13"
+                        VerticalAlignment="Center"/>
+                    <TextBlock
+                        Text="Refresh"
+                        Margin="7,0,0,0"
+                        VerticalAlignment="Center"/>
+                </StackPanel>
+            </Button>
+
+        </Grid>
+
+        <!-- Queue -->
+
+        <Border Grid.Row="2" Style="{StaticResource CardStyle}" Padding="16">
+
+            <Grid>
+
+                <DataGrid
+                    Style="{StaticResource DataGridStyle}"
+                    ItemsSource="{Binding Items}"
+                    AutoGenerateColumns="False"
+                    IsReadOnly="True">
+
+                    <DataGrid.Columns>
+
+                        <DataGridTextColumn
+                            Header="PROCESS NAME"
+                            Binding="{Binding ProcessName}"
+                            Width="*"/>
+
+                        <DataGridTextColumn
+                            Header="SOURCE"
+                            Binding="{Binding Source}"
+                            Width="120"/>
+
+                        <DataGridTemplateColumn
+                            Header="RUN STATUS"
+                            Width="150">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <Border
+                                        Style="{StaticResource StatusPillStyle}"
+                                        Background="{Binding StatusText, Converter={StaticResource StatusToBrushConverter}}"
+                                        HorizontalAlignment="Right"
+                                        Margin="0,0,8,0">
+
+                                        <StackPanel Orientation="Horizontal">
+
+                                            <Border
+                                                Width="7"
+                                                Height="7"
+                                                CornerRadius="4"
+                                                VerticalAlignment="Center"
+                                                Background="{Binding StatusText, Converter={StaticResource StatusToBrushConverter}, ConverterParameter=Foreground}"/>
+
+                                            <TextBlock
+                                                Text="{Binding StatusText}"
+                                                Margin="6,0,0,0"
+                                                FontSize="11.5"
+                                                FontWeight="SemiBold"
+                                                Foreground="{Binding StatusText, Converter={StaticResource StatusToBrushConverter}, ConverterParameter=Foreground}"/>
+
+                                        </StackPanel>
+
+                                    </Border>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+
+                        <DataGridTemplateColumn
+                            Header=""
+                            Width="60">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <Button
+                                        Style="{StaticResource IconButtonStyle}"
+                                        Click="ViewLogs_Click"
+                                        ToolTip="View logs">
+                                        <TextBlock
+                                            Text="&#xE890;"
+                                            FontFamily="{StaticResource FontIcon}"
+                                            FontSize="15"/>
+                                    </Button>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+
+                    </DataGrid.Columns>
+
+                </DataGrid>
+
+                <StackPanel
+                    VerticalAlignment="Center"
+                    HorizontalAlignment="Center"
+                    Visibility="{Binding Items.Count, Converter={StaticResource CountToVisibilityConverter}}">
+
+                    <TextBlock
+                        Text="&#xE8F1;"
+                        FontFamily="{StaticResource FontIcon}"
+                        FontSize="26"
+                        Foreground="{StaticResource BrushTextMuted}"
+                        HorizontalAlignment="Center"/>
+
+                    <TextBlock
+                        Text="Nothing queued"
+                        Style="{StaticResource TextSecondary}"
+                        Margin="0,10,0,0"
+                        HorizontalAlignment="Center"/>
+
+                    <TextBlock
+                        Text="Conflicting or waiting executions will appear here"
+                        Style="{StaticResource TextSecondary}"
+                        Foreground="{StaticResource BrushTextMuted}"
+                        FontSize="11.5"
+                        HorizontalAlignment="Center"/>
+
+                </StackPanel>
+
+            </Grid>
+
+        </Border>
+
+    </Grid>
+
+</UserControl>

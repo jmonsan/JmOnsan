@@ -25,12 +25,15 @@ public sealed class ProcessConfig
     public ScheduleDefinition Schedule { get; set; } = new();
 
     /// <summary>
+<<<<<<< HEAD
     /// Maximum runtime before timeout.
     /// Optional override of global timeout.
     /// </summary>
     public int? TimeoutMinutes { get; set; }
 
     /// <summary>
+=======
+>>>>>>> c347f0b (Restore local project)
     /// Number of retry attempts after failure.
     /// </summary>
     public int RetryCount { get; set; } = 0;

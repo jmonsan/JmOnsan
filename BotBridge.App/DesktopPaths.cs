@@ -40,6 +40,16 @@ public static class DesktopPaths
         Path.Combine(Root, "Logs");
 
     /// <summary>
+<<<<<<< HEAD
+=======
+    /// Folder where UiPath writes its execution logs (.txt).
+    /// Read-only for BotBridge; shown on the Execution Logs tab.
+    /// </summary>
+    public static string UiPathLogsFolder { get; } =
+        @"C:\Users\Jeirone Onsan\AppData\Local\UiPath\Logs";
+
+    /// <summary>
+>>>>>>> c347f0b (Restore local project)
     /// The single source of truth for app settings and
     /// registered process/schedule definitions.
     /// </summary>

@@ -105,6 +105,15 @@ public sealed class StatusService : IStatusService
             Current.FailedExecutions =
                 0;
 
+<<<<<<< HEAD
+=======
+            Current.RunningExecutions =
+                0;
+
+            Current.QueuedExecutions =
+                0;
+
+>>>>>>> c347f0b (Restore local project)
             Current.StartedAt =
                 null;
 
@@ -174,7 +183,12 @@ public sealed class StatusService : IStatusService
             // Live/session-only fields stay at their
             // freshly-constructed defaults: State (Stopped),
             // CurrentProcess, CurrentExecutionId,
+<<<<<<< HEAD
             // NextScheduledRun, StartedAt.
+=======
+            // NextScheduledRun, RunningExecutions,
+            // QueuedExecutions, StartedAt.
+>>>>>>> c347f0b (Restore local project)
             Current.LastUpdatedAt =
                 DateTimeOffset.Now;
         }
@@ -249,6 +263,15 @@ public sealed class StatusService : IStatusService
             FailedExecutions =
                 Current.FailedExecutions,
 
+<<<<<<< HEAD
+=======
+            RunningExecutions =
+                Current.RunningExecutions,
+
+            QueuedExecutions =
+                Current.QueuedExecutions,
+
+>>>>>>> c347f0b (Restore local project)
             StartedAt =
                 Current.StartedAt,
 

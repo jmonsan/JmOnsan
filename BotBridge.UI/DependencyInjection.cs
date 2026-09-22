@@ -20,7 +20,13 @@ public static class DependencyInjection
         services.AddSingleton<DashboardViewModel>();
         services.AddSingleton<ProcessesViewModel>();
         services.AddSingleton<SchedulesViewModel>();
+<<<<<<< HEAD
         services.AddSingleton<LogsViewModel>();
+=======
+        services.AddSingleton<RunQueueViewModel>();
+        services.AddSingleton<LogsViewModel>();
+        services.AddSingleton<ExecutionLogsViewModel>();
+>>>>>>> c347f0b (Restore local project)
 
         // Main window
         services.AddSingleton<MainWindow>();
@@ -29,7 +35,13 @@ public static class DependencyInjection
         services.AddSingleton<DashboardView>();
         services.AddSingleton<ProcessesView>();
         services.AddSingleton<SchedulesView>();
+<<<<<<< HEAD
         services.AddSingleton<LogsView>();
+=======
+        services.AddSingleton<RunQueueView>();
+        services.AddSingleton<LogsView>();
+        services.AddSingleton<ExecutionLogsView>();
+>>>>>>> c347f0b (Restore local project)
 
         return services;
     }

@@ -10,7 +10,10 @@ C:\BotBridge\BotBridge.App\obj\Debug\net8.0\BotBridge.App.GeneratedMSBuildEditor
 C:\BotBridge\BotBridge.App\obj\Debug\net8.0\BotBridge.App.AssemblyInfoInputs.cache
 C:\BotBridge\BotBridge.App\obj\Debug\net8.0\BotBridge.App.AssemblyInfo.cs
 C:\BotBridge\BotBridge.App\obj\Debug\net8.0\BotBridge.App.csproj.CoreCompileInputs.cache
+<<<<<<< HEAD
 C:\BotBridge\BotBridge.App\obj\Debug\net8.0\BotBridge.App.sourcelink.json
+=======
+>>>>>>> c347f0b (Restore local project)
 C:\BotBridge\BotBridge.App\obj\Debug\net8.0\BotBridg.4491C108.Up2Date
 C:\BotBridge\BotBridge.App\obj\Debug\net8.0\BotBridge.App.dll
 C:\BotBridge\BotBridge.App\obj\Debug\net8.0\refint\BotBridge.App.dll

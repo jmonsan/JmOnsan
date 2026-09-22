@@ -41,6 +41,13 @@ public static class DependencyInjection
             _ => new StatusService(
                 DesktopPaths.StatusFile));
 
+<<<<<<< HEAD
+=======
+        services.AddSingleton<IExecutionLogService>(
+            _ => new ExecutionLogService(
+                DesktopPaths.UiPathLogsFolder));
+
+>>>>>>> c347f0b (Restore local project)
         // =========================
         // Application Services
         // =========================
@@ -51,6 +58,12 @@ public static class DependencyInjection
         services.AddSingleton<IScheduleService,
             ScheduleService>();
 
+<<<<<<< HEAD
+=======
+        services.AddSingleton<IRunQueueService,
+            RunQueueService>();
+
+>>>>>>> c347f0b (Restore local project)
         services.AddSingleton<IAutomationService,
             AutomationService>();
 

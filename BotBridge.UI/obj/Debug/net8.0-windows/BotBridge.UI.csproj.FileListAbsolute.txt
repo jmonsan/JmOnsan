@@ -1,7 +1,14 @@
+<<<<<<< HEAD
 C:\BotBridge\BotBridge.UI\bin\Debug\net8.0-windows\Assets\BotBridge.ico
 C:\BotBridge\BotBridge.UI\bin\Debug\net8.0-windows\BotBridge.App.deps.json
 C:\BotBridge\BotBridge.UI\bin\Debug\net8.0-windows\BotBridge.App.runtimeconfig.json
 C:\BotBridge\BotBridge.UI\bin\Debug\net8.0-windows\BotBridge.App.exe
+=======
+C:\BotBridge\BotBridge.UI\bin\Debug\net8.0-windows\BotBridge.App.deps.json
+C:\BotBridge\BotBridge.UI\bin\Debug\net8.0-windows\BotBridge.App.runtimeconfig.json
+C:\BotBridge\BotBridge.UI\bin\Debug\net8.0-windows\BotBridge.App.exe
+C:\BotBridge\BotBridge.UI\bin\Debug\net8.0-windows\Assets\BotBridge.ico
+>>>>>>> c347f0b (Restore local project)
 C:\BotBridge\BotBridge.UI\bin\Debug\net8.0-windows\BotBridge.UI.exe
 C:\BotBridge\BotBridge.UI\bin\Debug\net8.0-windows\BotBridge.UI.deps.json
 C:\BotBridge\BotBridge.UI\bin\Debug\net8.0-windows\BotBridge.UI.runtimeconfig.json
@@ -18,6 +25,7 @@ C:\BotBridge\BotBridge.UI\obj\Debug\net8.0-windows\Themes\Colors.baml
 C:\BotBridge\BotBridge.UI\obj\Debug\net8.0-windows\Themes\Controls.baml
 C:\BotBridge\BotBridge.UI\obj\Debug\net8.0-windows\Themes\Typography.baml
 C:\BotBridge\BotBridge.UI\obj\Debug\net8.0-windows\Views\DashboardView.baml
+<<<<<<< HEAD
 C:\BotBridge\BotBridge.UI\obj\Debug\net8.0-windows\Views\LogDetailWindow.baml
 C:\BotBridge\BotBridge.UI\obj\Debug\net8.0-windows\Views\LogsView.baml
 C:\BotBridge\BotBridge.UI\obj\Debug\net8.0-windows\Views\ProcessesView.baml
@@ -27,6 +35,21 @@ C:\BotBridge\BotBridge.UI\obj\Debug\net8.0-windows\Views\DashboardView.g.cs
 C:\BotBridge\BotBridge.UI\obj\Debug\net8.0-windows\Views\LogDetailWindow.g.cs
 C:\BotBridge\BotBridge.UI\obj\Debug\net8.0-windows\Views\LogsView.g.cs
 C:\BotBridge\BotBridge.UI\obj\Debug\net8.0-windows\Views\ProcessesView.g.cs
+=======
+C:\BotBridge\BotBridge.UI\obj\Debug\net8.0-windows\Views\ExecutionLogsView.baml
+C:\BotBridge\BotBridge.UI\obj\Debug\net8.0-windows\Views\LogDetailWindow.baml
+C:\BotBridge\BotBridge.UI\obj\Debug\net8.0-windows\Views\LogsView.baml
+C:\BotBridge\BotBridge.UI\obj\Debug\net8.0-windows\Views\ProcessesView.baml
+C:\BotBridge\BotBridge.UI\obj\Debug\net8.0-windows\Views\RunQueueView.baml
+C:\BotBridge\BotBridge.UI\obj\Debug\net8.0-windows\Views\SchedulesView.baml
+C:\BotBridge\BotBridge.UI\obj\Debug\net8.0-windows\MainWindow.g.cs
+C:\BotBridge\BotBridge.UI\obj\Debug\net8.0-windows\Views\DashboardView.g.cs
+C:\BotBridge\BotBridge.UI\obj\Debug\net8.0-windows\Views\ExecutionLogsView.g.cs
+C:\BotBridge\BotBridge.UI\obj\Debug\net8.0-windows\Views\LogDetailWindow.g.cs
+C:\BotBridge\BotBridge.UI\obj\Debug\net8.0-windows\Views\LogsView.g.cs
+C:\BotBridge\BotBridge.UI\obj\Debug\net8.0-windows\Views\ProcessesView.g.cs
+C:\BotBridge\BotBridge.UI\obj\Debug\net8.0-windows\Views\RunQueueView.g.cs
+>>>>>>> c347f0b (Restore local project)
 C:\BotBridge\BotBridge.UI\obj\Debug\net8.0-windows\Views\SchedulesView.g.cs
 C:\BotBridge\BotBridge.UI\obj\Debug\net8.0-windows\App.g.cs
 C:\BotBridge\BotBridge.UI\obj\Debug\net8.0-windows\BotBridge.UI_Content.g.cs
@@ -39,7 +62,10 @@ C:\BotBridge\BotBridge.UI\obj\Debug\net8.0-windows\BotBridge.UI.GeneratedMSBuild
 C:\BotBridge\BotBridge.UI\obj\Debug\net8.0-windows\BotBridge.UI.AssemblyInfoInputs.cache
 C:\BotBridge\BotBridge.UI\obj\Debug\net8.0-windows\BotBridge.UI.AssemblyInfo.cs
 C:\BotBridge\BotBridge.UI\obj\Debug\net8.0-windows\BotBridge.UI.csproj.CoreCompileInputs.cache
+<<<<<<< HEAD
 C:\BotBridge\BotBridge.UI\obj\Debug\net8.0-windows\BotBridge.UI.sourcelink.json
+=======
+>>>>>>> c347f0b (Restore local project)
 C:\BotBridge\BotBridge.UI\obj\Debug\net8.0-windows\BotBridg.BCC7F059.Up2Date
 C:\BotBridge\BotBridge.UI\obj\Debug\net8.0-windows\BotBridge.UI.dll
 C:\BotBridge\BotBridge.UI\obj\Debug\net8.0-windows\refint\BotBridge.UI.dll

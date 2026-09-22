@@ -199,12 +199,15 @@ public sealed class JsonConfigurationService
                 "MaxConcurrentTasks must be greater than zero.");
         }
 
+<<<<<<< HEAD
         if (config.ProcessTimeoutMinutes <= 0)
         {
             throw new ConfigurationException(
                 "ProcessTimeoutMinutes must be greater than zero.");
         }
 
+=======
+>>>>>>> c347f0b (Restore local project)
         foreach (var process in config.Processes)
         {
             ValidateProcess(process);
@@ -265,8 +268,11 @@ public sealed class JsonConfigurationService
 
             MaxConcurrentTasks = 1,
 
+<<<<<<< HEAD
             ProcessTimeoutMinutes = 60,
 
+=======
+>>>>>>> c347f0b (Restore local project)
             RunMissedSchedules = true
         };
 

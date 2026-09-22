@@ -28,11 +28,14 @@ public sealed class AppConfig
     public int MaxConcurrentTasks { get; set; } = 1;
 
     /// <summary>
+<<<<<<< HEAD
     /// Timeout applied to BAT execution.
     /// </summary>
     public int ProcessTimeoutMinutes { get; set; } = 60;
 
     /// <summary>
+=======
+>>>>>>> c347f0b (Restore local project)
     /// Execute missed schedules after restart/resume.
     /// </summary>
     public bool RunMissedSchedules { get; set; } = true;

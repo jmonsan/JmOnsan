@@ -1,4 +1,8 @@
 using System.Collections.ObjectModel;
+<<<<<<< HEAD
+=======
+using BotBridge.Application.Workers;
+>>>>>>> c347f0b (Restore local project)
 using BotBridge.Core.Interfaces;
 using BotBridge.UI.Commands;
 using BotBridge.UI.Models;
@@ -12,7 +16,11 @@ public sealed class ProcessesViewModel
     private readonly IProcessService _processService;
 
     private readonly IProcessDiscoveryService _processDiscoveryService;
+<<<<<<< HEAD
     private readonly IAutomationService _automationService;
+=======
+    private readonly AutomationWorker _automationWorker;
+>>>>>>> c347f0b (Restore local project)
 
     private ProcessItemModel? _selectedProcess;
 
@@ -52,14 +60,23 @@ public sealed class ProcessesViewModel
 
 public ProcessesViewModel(
     IProcessService processService,
+<<<<<<< HEAD
     IAutomationService automationService,
+=======
+    AutomationWorker automationWorker,
+>>>>>>> c347f0b (Restore local project)
     IProcessDiscoveryService processDiscoveryService)
 {
     _processService =
         processService;
 
+<<<<<<< HEAD
     _automationService =
         automationService;
+=======
+    _automationWorker =
+        automationWorker;
+>>>>>>> c347f0b (Restore local project)
 
     _processDiscoveryService =
         processDiscoveryService;
@@ -132,8 +149,16 @@ private async Task LoadProcessesAsync()
             return;
         }
 
+<<<<<<< HEAD
         await _automationService
             .ExecuteAsync(
+=======
+        // Goes through the Run Queue like a scheduled run: it
+        // starts immediately when free, or waits (visible on the
+        // Run Queue tab) if it conflicts with something running.
+        await _automationWorker
+            .EnqueueManualRunAsync(
+>>>>>>> c347f0b (Restore local project)
                 SelectedProcess.Name);
     }
 }   
